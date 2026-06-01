@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Angular
+web/dist/
+web/.angular/
+web/coverage/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Misc
+*.local
