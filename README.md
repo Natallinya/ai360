@@ -35,18 +35,30 @@ npm run build
 npm test
 ```
 
-## GitHub
+## Git и ветки
 
-1. Создайте пустой репозиторий на https://github.com/new (без README, если уже есть локальный git).
-2. В корне `ai360`:
+| Ветка | Назначение |
+|-------|------------|
+| `main` | Стабильная версия (релизы, merge из `development`) |
+| `development` | Ежедневная разработка |
+
+**Репозиторий:** https://github.com/Natallinya/ai360
 
 ```powershell
-git init
+# Клонирование и переход на development
+git clone https://github.com/Natallinya/ai360.git
+cd ai360
+git checkout development
+
+# Обычный цикл разработки
+git checkout development
+git pull
+# ... правки ...
 git add .
-git commit -m "chore: initial Angular 21 scaffold and product spec"
-git branch -M main
-git remote add origin https://github.com/Natallinya/ai360.git
-git push -u origin main
+git commit -m "feat: описание изменения"
+git push
+
+# Когда готово к релизу — Pull Request: development → main
 ```
 
 ## Следующие шаги разработки

@@ -8,6 +8,9 @@
 
 ## Репозиторий
 
+**GitHub:** https://github.com/Natallinya/ai360  
+**Ветка для разработки:** `development` (не коммитить фичи напрямую в `main` без запроса).
+
 | Путь | Назначение |
 |------|------------|
 | `web/` | Angular 21 SPA (zoneless, standalone, signals) |
