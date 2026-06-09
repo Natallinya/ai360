@@ -13,8 +13,16 @@ const adapters: SearchAdapter[] = [
   new DummyJsonSearchAdapter(),
 ];
 
-export async function searchProducts(query: string): Promise<SearchResponse> {
+export interface SearchRequestOptions {
+  wbPage?: number;
+}
+
+export async function searchProducts(
+  query: string,
+  options: SearchRequestOptions = {},
+): Promise<SearchResponse> {
   const trimmed = query.trim();
+  const wbPage = Math.max(1, options.wbPage ?? 1);
   const sources: Record<string, SearchSourceStatus> = {};
   const offers: SearchResponse['offers'] = [];
 
@@ -22,14 +30,17 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     return { query: trimmed, offers: [], sources: {} };
   }
 
+  const activeAdapters =
+    wbPage === 1 ? adapters : adapters.filter((adapter) => adapter.id === 'wildberries');
+
   const results = await Promise.allSettled(
-    adapters.map((adapter) =>
-      withTimeout(adapter.search(trimmed), ADAPTER_TIMEOUT_MS, adapter.id),
+    activeAdapters.map((adapter) =>
+      withTimeout(adapter.search(trimmed, { wbPage }), ADAPTER_TIMEOUT_MS, adapter.id),
     ),
   );
 
   for (const [index, settled] of results.entries()) {
-    const adapter = adapters[index]!;
+    const adapter = activeAdapters[index]!;
 
     if (settled.status === 'fulfilled') {
       sources[adapter.id] = { status: 'ok', count: settled.value.offers.length };

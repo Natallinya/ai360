@@ -31,31 +31,63 @@
 
   @if (query().length < 2) {
     <p class="empty">Введите минимум 2 символа для поиска.</p>
-  } @else if (loading()) {
+  } @else if (loading() || wakingServer()) {
     <p class="empty">
       @if (wakingServer()) {
         Просыпаем BFF на Render… после простоя это может занять до 1 минуты.
       } @else {
-        Ищем на площадках… обычно несколько секунд.
+        Ищем на площадках…
       }
     </p>
-  } @else if (results().length === 0 && !error()) {
+  } @else if (filteringImages() && pageOffers().length < pageSize) {
+    <p class="empty">Подбираем товары с рабочими фото…</p>
+  } @else if (pageOffers().length === 0 && !error()) {
     <p class="empty">
-      По запросу «{{ query() }}» ничего не найдено. Попробуйте «phone» (live API) или «кружка»
-      (mock).
+      По запросу «{{ query() }}» не нашли товаров с рабочими картинками. Попробуйте другой
+      запрос.
     </p>
-  } @else if (results().length > 0) {
-    <p class="meta">Найдено: {{ results().length }} · запрос «{{ query() }}»</p>
+  } @else {
+    <p class="meta">
+      Страница {{ page() }} · {{ pageOffers().length }} товаров с фото · всего подобрано
+      {{ validatedOffers().length }} · «{{ query() }}»
+    </p>
+
     <ul class="grid">
-      @for (offer of results(); track offer.id) {
-        <li>
-          <app-product-card
-            [offer]="offer"
-            (added)="showToast('Добавлено в вишлист')"
-            (duplicate)="showToast('Уже в вишлисте')"
-          />
-        </li>
+      @for (offer of pageOffers(); track offer.id) {
+        <app-product-card
+          [offer]="offer"
+          (added)="showToast('Добавлено в вишлист')"
+          (duplicate)="showToast('Уже в вишлисте')"
+          (imageBroken)="onImageBroken(offer.id)"
+        />
       }
     </ul>
+
+    <nav class="pager" aria-label="Страницы результатов">
+      <button
+        type="button"
+        class="btn btn--ghost"
+        [disabled]="page() <= 1 || filteringImages()"
+        (click)="goToPage(page() - 1)"
+      >
+        ← Назад
+      </button>
+
+      <span class="pager__status">
+        {{ page() }}
+        @if (totalPages() > 1) {
+          / {{ totalPages() }}
+        }
+      </span>
+
+      <button
+        type="button"
+        class="btn btn--ghost"
+        [disabled]="!canGoNext()"
+        (click)="goToPage(page() + 1)"
+      >
+        Вперёд →
+      </button>
+    </nav>
   }
 </section>

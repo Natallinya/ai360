@@ -34,6 +34,35 @@ export function isPlaceholderImageUrl(url: string): boolean {
   }
 }
 
+/** Параллельная проверка картинок в браузере (не блокирует BFF). */
+export async function filterOffersWithWorkingImages(
+  offers: ProductOffer[],
+  concurrency = 10,
+): Promise<ProductOffer[]> {
+  if (offers.length === 0) {
+    return [];
+  }
+
+  const flags = new Array<boolean>(offers.length).fill(false);
+  let nextIndex = 0;
+  const workerCount = Math.min(concurrency, offers.length);
+
+  async function worker(): Promise<void> {
+    while (true) {
+      const index = nextIndex;
+      nextIndex += 1;
+      if (index >= offers.length) {
+        return;
+      }
+
+      flags[index] = await imageUrlLoads(offers[index]!.imageUrl);
+    }
+  }
+
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+  return offers.filter((_, index) => flags[index]);
+}
+
 export function imageUrlLoads(url: string): Promise<boolean> {
   if (isPlaceholderImageUrl(url)) {
     return Promise.resolve(true);

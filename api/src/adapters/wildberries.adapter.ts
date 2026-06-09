@@ -8,7 +8,7 @@ const WB_USER_AGENT =
 const MIN_REQUEST_INTERVAL_MS = 800;
 const WB_FETCH_TIMEOUT_MS = 8_000;
 const CACHE_TTL_MS = 5 * 60_000;
-const MAX_OFFERS = 20;
+const MAX_OFFERS = 30;
 
 const WB_ENDPOINTS = [
   'https://search.wb.ru/exactmatch/ru/common/v18/search',
@@ -48,15 +48,17 @@ export class WildberriesSearchAdapter implements SearchAdapter {
     return true;
   }
 
-  async search(query: string): Promise<SearchAdapterResult> {
+  async search(query: string, options?: { wbPage?: number }): Promise<SearchAdapterResult> {
     const normalized = query.trim().toLowerCase();
-    const cached = responseCache.get(normalized);
+    const page = Math.max(1, options?.wbPage ?? 1);
+    const cacheKey = `${normalized}|p${page}`;
+    const cached = responseCache.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
       return mapWbResponse(cached.data);
     }
 
-    const data = await fetchWbSearch(normalized);
-    responseCache.set(normalized, { expiresAt: Date.now() + CACHE_TTL_MS, data });
+    const data = await fetchWbSearch(normalized, page);
+    responseCache.set(cacheKey, { expiresAt: Date.now() + CACHE_TTL_MS, data });
 
     return mapWbResponse(data);
   }
@@ -89,13 +91,13 @@ function mapWbResponse(data: WbSearchResponse): SearchAdapterResult {
   return { source: 'wildberries', offers };
 }
 
-async function fetchWbSearch(query: string): Promise<WbSearchResponse> {
+async function fetchWbSearch(query: string, page: number): Promise<WbSearchResponse> {
   await throttleWbRequests();
 
   let lastStatus = 0;
 
   for (const endpoint of WB_ENDPOINTS) {
-    const response = await requestWbSearch(endpoint, query);
+    const response = await requestWbSearch(endpoint, query, page);
 
     if (response.ok) {
       return (await response.json()) as WbSearchResponse;
@@ -117,14 +119,14 @@ async function fetchWbSearch(query: string): Promise<WbSearchResponse> {
   throw new Error(`Wildberries search failed (${lastStatus || 'network error'})`);
 }
 
-async function requestWbSearch(endpoint: string, query: string): Promise<Response> {
+async function requestWbSearch(endpoint: string, query: string, page: number): Promise<Response> {
   const url = new URL(endpoint);
   url.searchParams.set('appType', '1');
   url.searchParams.set('curr', 'rub');
   url.searchParams.set('dest', WB_DEST);
   url.searchParams.set('inheritFilters', 'false');
   url.searchParams.set('lang', 'ru');
-  url.searchParams.set('page', '1');
+  url.searchParams.set('page', String(page));
   url.searchParams.set('query', query);
   url.searchParams.set('resultset', 'catalog');
   url.searchParams.set('sort', 'popular');

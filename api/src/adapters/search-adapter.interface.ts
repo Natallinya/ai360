@@ -6,8 +6,12 @@ export interface SearchAdapterResult {
   error?: string;
 }
 
+export interface SearchOptions {
+  wbPage?: number;
+}
+
 export interface SearchAdapter {
   readonly id: string;
   isEnabled(): boolean;
-  search(query: string): Promise<SearchAdapterResult>;
+  search(query: string, options?: SearchOptions): Promise<SearchAdapterResult>;
 }

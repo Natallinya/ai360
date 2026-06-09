@@ -25,6 +25,31 @@ export class FusionFormComponent {
   protected animal2 = '';
   protected style: AnimalFusionStyle = 'cute';
 
+  protected readonly animalSuggestions = [
+    'кот',
+    'сова',
+    'собака',
+    'лиса',
+    'медведь',
+    'волк',
+    'кролик',
+    'панда',
+    'тигр',
+    'слон',
+    'пингвин',
+    'крокодил',
+    'ёж',
+    'енот',
+    'капибара',
+    'дельфин',
+    'орёл',
+    'лягушка',
+    'бегемот',
+    'жираф',
+    'носорог',
+    'медоед',
+  ];
+
   protected readonly styles: Array<{ id: AnimalFusionStyle; label: string }> = [
     { id: 'cute', label: 'Милый' },
     { id: 'cartoon', label: 'Мультяшный' },

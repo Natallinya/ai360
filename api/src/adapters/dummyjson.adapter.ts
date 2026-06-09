@@ -1,5 +1,5 @@
 import { ProductOffer } from '../models/product-offer.model.js';
-import { SearchAdapter, SearchAdapterResult } from './search-adapter.interface.js';
+import { SearchAdapter, SearchAdapterResult, SearchOptions } from './search-adapter.interface.js';
 
 interface DummyJsonProduct {
   id: number;
@@ -23,7 +23,7 @@ export class DummyJsonSearchAdapter implements SearchAdapter {
     return true;
   }
 
-  async search(query: string): Promise<SearchAdapterResult> {
+  async search(query: string, _options?: SearchOptions): Promise<SearchAdapterResult> {
     const url = new URL('https://dummyjson.com/products/search');
     url.searchParams.set('q', query.trim());
     url.searchParams.set('limit', '20');

@@ -7,6 +7,7 @@
         name="animal1"
         [(ngModel)]="animal1"
         placeholder="кот"
+        list="fusion-animals"
         required
         maxlength="40"
         [disabled]="loading()"
@@ -22,6 +23,7 @@
         name="animal2"
         [(ngModel)]="animal2"
         placeholder="сова"
+        list="fusion-animals"
         required
         maxlength="40"
         [disabled]="loading()"
@@ -44,6 +46,12 @@
       </label>
     }
   </fieldset>
+
+  <datalist id="fusion-animals">
+    @for (animal of animalSuggestions; track animal) {
+      <option [value]="animal"></option>
+    }
+  </datalist>
 
   <button class="btn btn--primary" type="submit" [disabled]="loading()">
     {{ loading() ? 'Генерация 15–60 с…' : 'Скрестить' }}

@@ -6,6 +6,7 @@ import {
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 
 import { ProductOffer } from '../../../core/models/product-offer.model';
@@ -18,6 +19,10 @@ import { SourceLabelPipe } from '../../utils/source-label.pipe';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'product-card-host',
+    '[class.product-card-host--hidden]': 'imageFailed()',
+  },
 })
 export class ProductCardComponent {
   private readonly wishlist = inject(WishlistService);
@@ -27,6 +32,9 @@ export class ProductCardComponent {
 
   readonly added = output<void>();
   readonly duplicate = output<void>();
+  readonly imageBroken = output<void>();
+
+  protected readonly imageFailed = signal(false);
 
   protected readonly inWishlist = computed(() => {
     this.wishlist.items();
@@ -42,13 +50,12 @@ export class ProductCardComponent {
     }
   }
 
-  protected readonly placeholderImage =
-    'https://placehold.co/320x240/334155/e2e8f0?text=No+image';
-
-  protected onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    if (!img.src.includes('placehold.co')) {
-      img.src = this.placeholderImage;
+  protected onImageError(): void {
+    if (this.imageFailed()) {
+      return;
     }
+
+    this.imageFailed.set(true);
+    this.imageBroken.emit();
   }
 }

@@ -60,12 +60,17 @@ function buildFusionPrompt(animal1: string, animal2: string, style: AnimalFusion
         : 'cute friendly digital illustration, soft colors';
 
   return [
-    `A single hybrid fantasy creature combining distinctive features of a ${animal1} and a ${animal2},`,
-    'full body, centered, plain light background,',
+    `Hybrid chimera creature, equal mix of ${animal1} and ${animal2},`,
+    `clearly visible traits from BOTH a ${animal1} AND a ${animal2} merged into ONE animal,`,
+    `for example ${animal1} head or ears with ${animal2} body, legs, tail or wings,`,
+    'single subject, full body, centered, plain light background,',
     `${styleHint},`,
-    'high detail, no text, no watermark, no collage, one animal only',
+    'high detail, no text, no watermark, no collage, no two separate animals side by side',
   ].join(' ');
 }
+
+const FUSION_NEGATIVE_PROMPT =
+  'two animals, multiple animals, collage, split screen, diptych, human, person, text, watermark, logo, blurry, deformed, extra limbs';
 
 function buildCacheId(animal1: string, animal2: string, prompt: string): string {
   return createHash('sha256').update(`${animal1}|${animal2}|${prompt}`).digest('hex').slice(0, 16);
@@ -110,7 +115,8 @@ async function requestStableHordeImage(
     headers: hordeHeaders(),
     body: JSON.stringify({
       prompt,
-      params: { width: 512, height: 512, steps: 22 },
+      negative_prompt: FUSION_NEGATIVE_PROMPT,
+      params: { width: 512, height: 512, steps: 28, cfg_scale: 7.5 },
       nsfw: false,
       censor_nsfw: true,
     }),

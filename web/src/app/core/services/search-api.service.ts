@@ -9,8 +9,12 @@ import { SearchResponse } from '../models/search-response.model';
 export class SearchApiService {
   private readonly http = inject(HttpClient);
 
-  search(query: string): Promise<SearchResponse> {
-    const params = new HttpParams().set('q', query.trim());
+  search(query: string, wbPage = 1): Promise<SearchResponse> {
+    let params = new HttpParams().set('q', query.trim());
+    if (wbPage > 1) {
+      params = params.set('wbPage', String(wbPage));
+    }
+
     return firstValueFrom(
       this.http
         .get<SearchResponse>('/api/search', { params })

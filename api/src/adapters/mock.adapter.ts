@@ -1,6 +1,6 @@
 import { MOCK_CATALOG } from '../data/mock-catalog.js';
 import { ProductOffer } from '../models/product-offer.model.js';
-import { SearchAdapter, SearchAdapterResult } from './search-adapter.interface.js';
+import { SearchAdapter, SearchAdapterResult, SearchOptions } from './search-adapter.interface.js';
 
 export class MockSearchAdapter implements SearchAdapter {
   readonly id = 'mock';
@@ -9,7 +9,7 @@ export class MockSearchAdapter implements SearchAdapter {
     return true;
   }
 
-  async search(query: string): Promise<SearchAdapterResult> {
+  async search(query: string, _options?: SearchOptions): Promise<SearchAdapterResult> {
     const normalized = query.trim().toLowerCase();
     if (normalized.length < 2) {
       return { source: this.id, offers: [] };
