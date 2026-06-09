@@ -19,13 +19,17 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     return { query: trimmed, offers: [], sources: {} };
   }
 
-  for (const adapter of adapters) {
-    try {
-      const result = await adapter.search(trimmed);
-      sources[adapter.id] = { status: 'ok', count: result.offers.length };
-      offers.push(...result.offers);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'unknown error';
+  const results = await Promise.allSettled(adapters.map((adapter) => adapter.search(trimmed)));
+
+  for (const [index, settled] of results.entries()) {
+    const adapter = adapters[index]!;
+
+    if (settled.status === 'fulfilled') {
+      sources[adapter.id] = { status: 'ok', count: settled.value.offers.length };
+      offers.push(...settled.value.offers);
+    } else {
+      const message =
+        settled.reason instanceof Error ? settled.reason.message : 'unknown error';
       sources[adapter.id] = { status: 'error', message, count: 0 };
     }
   }

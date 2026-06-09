@@ -1,5 +1,5 @@
 import { ProductOffer } from '../models/product-offer.model.js';
-import { resolveWbProductImageUrl } from '../services/wb-image.service.js';
+import { wbImageProxyPath } from '../services/wb-image.service.js';
 import { SearchAdapter, SearchAdapterResult } from './search-adapter.interface.js';
 
 const WB_DEST = '-1257786';
@@ -8,7 +8,6 @@ const WB_USER_AGENT =
 const MIN_REQUEST_INTERVAL_MS = 2_000;
 const CACHE_TTL_MS = 5 * 60_000;
 const MAX_OFFERS = 20;
-const MAX_CANDIDATES = 40;
 
 const WB_ENDPOINTS = [
   'https://search.wb.ru/exactmatch/ru/common/v18/search',
@@ -52,52 +51,41 @@ export class WildberriesSearchAdapter implements SearchAdapter {
     const normalized = query.trim().toLowerCase();
     const cached = responseCache.get(normalized);
     if (cached && cached.expiresAt > Date.now()) {
-      return this.mapResponse(cached.data);
+      return mapWbResponse(cached.data);
     }
 
     const data = await fetchWbSearch(normalized);
     responseCache.set(normalized, { expiresAt: Date.now() + CACHE_TTL_MS, data });
 
-    return this.mapResponse(data);
+    return mapWbResponse(data);
   }
+}
 
-  private async mapResponse(data: WbSearchResponse): Promise<SearchAdapterResult> {
-    const fetchedAt = new Date().toISOString();
-    const offers: ProductOffer[] = [];
+function mapWbResponse(data: WbSearchResponse): SearchAdapterResult {
+  const fetchedAt = new Date().toISOString();
 
-    for (const item of (data.products ?? []).slice(0, MAX_CANDIDATES)) {
-      if (offers.length >= MAX_OFFERS) {
-        break;
-      }
-
-      if (item.pics === 0) {
-        continue;
-      }
-
-      const imageUrl = await resolveWbProductImageUrl(item.id);
-      if (!imageUrl) {
-        continue;
-      }
-
+  const offers: ProductOffer[] = (data.products ?? [])
+    .filter((item) => item.pics !== 0)
+    .slice(0, MAX_OFFERS)
+    .map((item) => {
       const priceKopecks = item.sizes?.[0]?.price?.product ?? 0;
       const title = item.brand ? `${item.name} (${item.brand})` : item.name;
 
-      offers.push({
+      return {
         id: `wb-${item.id}`,
-        source: 'wildberries',
+        source: 'wildberries' as const,
         externalId: String(item.id),
         title,
         price: Math.round(priceKopecks / 100),
         currency: 'RUB',
-        imageUrl,
+        imageUrl: wbImageProxyPath(item.id),
         productUrl: `https://www.wildberries.ru/catalog/${item.id}/detail.aspx`,
         availability: priceKopecks > 0 ? 'in_stock' : 'unknown',
         fetchedAt,
-      });
-    }
+      };
+    });
 
-    return { source: this.id, offers };
-  }
+  return { source: 'wildberries', offers };
 }
 
 async function fetchWbSearch(query: string): Promise<WbSearchResponse> {
