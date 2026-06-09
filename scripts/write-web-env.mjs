@@ -7,6 +7,7 @@ const apiBaseUrl = (fromEnv || DEFAULT_API_URL).replace(/\/$/, '');
 const content = `export const environment = {
   production: true,
   apiBaseUrl: '${apiBaseUrl.replace(/'/g, "\\'")}',
+  searchTimeoutMs: 90_000,
 };
 `;
 

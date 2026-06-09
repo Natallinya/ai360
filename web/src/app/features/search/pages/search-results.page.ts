@@ -54,6 +54,16 @@ export class SearchResultsPage {
     return Object.entries(this.sources());
   }
 
+  private formatSearchError(err: unknown): string {
+    if (err instanceof Error) {
+      if (err.name === 'TimeoutError' || err.message.includes('Timeout')) {
+        return 'Сервер не ответил вовремя (Render мог заснуть). Подождите 10 с и попробуйте снова.';
+      }
+      return err.message;
+    }
+    return 'Не удалось выполнить поиск. Запустите BFF: cd api && npm run dev';
+  }
+
   private async runSearch(query: string): Promise<void> {
     if (query.length < 2) {
       this.results.set([]);
@@ -75,11 +85,7 @@ export class SearchResultsPage {
     } catch (err) {
       this.results.set([]);
       this.sources.set({});
-      this.error.set(
-        err instanceof Error
-          ? err.message
-          : 'Не удалось выполнить поиск. Запустите BFF: cd api && npm run dev',
-      );
+      this.error.set(this.formatSearchError(err));
     } finally {
       this.wakingServer.set(false);
       this.loading.set(false);
