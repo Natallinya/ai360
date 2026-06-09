@@ -11,7 +11,7 @@
 | | URL |
 |---|-----|
 | **Приложение** | https://natallinya.github.io/ai360/ |
-| **BFF health** | https://ai360-bff.onrender.com/api/health |
+| **BFF health** | https://ai360.onrender.com/api/health |
 
 Первый раз: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — включить GitHub Pages + подключить Render (~10 мин).
 

@@ -36,6 +36,7 @@ jobs:
       - name: Configure production API URL
         run: node scripts/write-web-env.mjs
         env:
+          # Пустая переменная API_BASE_URL в GitHub → дефолт https://ai360.onrender.com (см. scripts/write-web-env.mjs)
           API_BASE_URL: ${{ vars.API_BASE_URL }}
 
       - name: Build Web for GitHub Pages

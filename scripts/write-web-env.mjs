@@ -1,9 +1,8 @@
 import { writeFileSync } from 'node:fs';
 
-const apiBaseUrl = (process.env.API_BASE_URL ?? 'https://ai360-bff.onrender.com').replace(
-  /\/$/,
-  '',
-);
+const DEFAULT_API_URL = 'https://ai360.onrender.com';
+const fromEnv = process.env.API_BASE_URL?.trim();
+const apiBaseUrl = (fromEnv || DEFAULT_API_URL).replace(/\/$/, '');
 
 const content = `export const environment = {
   production: true,

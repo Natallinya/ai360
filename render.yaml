@@ -2,7 +2,7 @@
 # После push подключите репозиторий в Render → New → Blueprint.
 services:
   - type: web
-    name: ai360-bff
+    name: ai360
     runtime: node
     plan: free
     region: frankfurt
