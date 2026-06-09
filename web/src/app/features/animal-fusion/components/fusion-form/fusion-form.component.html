@@ -1,0 +1,51 @@
+<form class="fusion-form" (ngSubmit)="onSubmit()">
+  <div class="fusion-form__row">
+    <label>
+      Первое животное
+      <input
+        type="text"
+        name="animal1"
+        [(ngModel)]="animal1"
+        placeholder="кот"
+        required
+        maxlength="40"
+        [disabled]="loading()"
+      />
+    </label>
+
+    <span class="fusion-form__plus" aria-hidden="true">+</span>
+
+    <label>
+      Второе животное
+      <input
+        type="text"
+        name="animal2"
+        [(ngModel)]="animal2"
+        placeholder="сова"
+        required
+        maxlength="40"
+        [disabled]="loading()"
+      />
+    </label>
+  </div>
+
+  <fieldset class="fusion-form__styles">
+    <legend>Стиль</legend>
+    @for (item of styles; track item.id) {
+      <label class="fusion-form__style">
+        <input
+          type="radio"
+          name="style"
+          [value]="item.id"
+          [(ngModel)]="style"
+          [disabled]="loading()"
+        />
+        {{ item.label }}
+      </label>
+    }
+  </fieldset>
+
+  <button class="btn btn--primary" type="submit" [disabled]="loading()">
+    {{ loading() ? 'Генерация 15–60 с…' : 'Скрестить' }}
+  </button>
+</form>

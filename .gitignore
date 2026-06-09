@@ -1,5 +1,10 @@
 # Dependencies
 node_modules/
+api/node_modules/
+api/dist/
+
+# BFF secrets
+api/.env
 
 # Angular
 web/dist/
@@ -7,6 +12,7 @@ web/.angular/
 web/coverage/
 
 # IDE
+.cursor/
 .idea/
 *.swp
 *.swo

@@ -1,0 +1,13 @@
+<form class="search-form" (ngSubmit)="onSubmit()">
+  <input
+    class="search-form__input"
+    type="search"
+    name="q"
+    [placeholder]="placeholder()"
+    [(ngModel)]="queryText"
+    minlength="2"
+    required
+    autocomplete="off"
+  />
+  <button class="btn btn--primary" type="submit">{{ submitLabel() }}</button>
+</form>

@@ -1,0 +1,22 @@
+<section class="hero">
+  <p class="eyebrow">Wishlist Aggregator · MVP</p>
+  <h1>Найдите желанное на разных площадках</h1>
+  <p class="lead">
+    Введите запрос — покажем демо-предложения с нескольких источников. Понравившееся
+    сохраняйте в вишлист одним кликом.
+  </p>
+
+  <app-search-form (search)="onSearch($event)" />
+
+  <p class="hint">
+    Mock (RU): «кружка», «наушники» · WB (RU): «наушники», «куртка» · DummyJSON (EN):
+    «phone», «laptop»
+  </p>
+
+  <p class="home-link">
+    Есть прямая ссылка на товар?
+    <a routerLink="/add-by-url">Добавить по ссылке</a>
+    ·
+    <a routerLink="/fusion">Скрестить животных</a>
+  </p>
+</section>

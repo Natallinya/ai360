@@ -1,0 +1,17 @@
+<form class="url-form" (ngSubmit)="onSubmit()">
+  <label class="url-form__label" for="product-url">Ссылка на товар</label>
+  <input
+    id="product-url"
+    class="url-form__input"
+    type="url"
+    name="url"
+    [(ngModel)]="urlText"
+    placeholder="https://books.toscrape.com/catalogue/..."
+    required
+    autocomplete="off"
+    [disabled]="loading()"
+  />
+  <button class="btn btn--primary" type="submit" [disabled]="loading()">
+    {{ loading() ? 'Загрузка…' : submitLabel() }}
+  </button>
+</form>

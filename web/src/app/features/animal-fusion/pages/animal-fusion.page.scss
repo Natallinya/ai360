@@ -1,0 +1,80 @@
+.fusion-page header {
+  margin-bottom: 1.5rem;
+}
+
+.lead {
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 40rem;
+}
+
+.error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  color: var(--danger);
+  border-radius: 8px;
+}
+
+.toast {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 8px;
+}
+
+.result {
+  margin-top: 2rem;
+}
+
+.result h2 {
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+}
+
+.result__species {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.result__meta {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.result__frame {
+  position: relative;
+  max-width: 28rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.result__loading {
+  margin: 0;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.result__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  object-fit: cover;
+  background: var(--surface-muted);
+}
+
+.result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}

@@ -1,0 +1,140 @@
+.add-by-url header {
+  margin-bottom: 1.5rem;
+}
+
+.lead {
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 40rem;
+}
+
+.error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  color: var(--danger);
+  border-radius: 8px;
+}
+
+.warnings {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.toast {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 8px;
+}
+
+.preview {
+  margin-top: 2rem;
+}
+
+.preview h2 {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+}
+
+.manual-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.manual-edit__hint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.manual-edit label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.manual-edit input {
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-muted);
+}
+
+.preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.badge {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.test-links {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.test-links h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.test-links__note {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.test-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+}
+
+.test-links__url {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  word-break: break-all;
+  margin-top: 0.25rem;
+}
+
+code {
+  font-size: 0.875em;
+  background: var(--surface-muted);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}

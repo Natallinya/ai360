@@ -1,0 +1,105 @@
+<section class="add-by-url">
+  <header>
+    <h1>Добавить по ссылке</h1>
+    <p class="lead">
+      Вставьте URL товара с любого магазина. Мы загрузим название, картинку и цену из
+      открытых meta-тегов страницы (Open Graph / JSON-LD).
+    </p>
+  </header>
+
+  @if (bffOnline() === false) {
+    <p class="error" role="alert">
+      BFF не отвечает. Из корня проекта выполните: <code>npm install</code>, затем
+      <code>npm run dev</code>
+    </p>
+  }
+
+  <app-url-import-form [loading]="loading()" (submitUrl)="onLoadUrl($event)" />
+
+  <section class="test-links">
+    <h2>Тестовые ссылки (должны загрузиться)</h2>
+    <p class="test-links__note">
+      Ниже — ссылки без антибота (простой fetch). WB / Allegro / Яндекс Маркет требуют
+      Playwright: <code>npm run playwright:install</code>.
+    </p>
+    <ul>
+      @for (item of testUrls; track item.url) {
+        <li>
+          <button type="button" class="link-btn" (click)="useTestUrl(item.url)">
+            {{ item.label }}
+          </button>
+          <span class="test-links__url">{{ item.url }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  @if (toast()) {
+    <p class="toast" role="status">{{ toast() }}</p>
+  }
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (warnings().length > 0) {
+    <ul class="warnings">
+      @for (warning of warnings(); track warning) {
+        <li>{{ warning }}</li>
+      }
+    </ul>
+  }
+
+  @if (displayOffer(); as offer) {
+    <section class="preview">
+      <h2>Предпросмотр</h2>
+
+      @if (needsManualEdit()) {
+        <form class="manual-edit" (ngSubmit)="onAddToWishlist()">
+          <p class="manual-edit__hint">
+            Автопарсинг неполный — уточните название и цену вручную, они сохранятся в вишлист.
+          </p>
+          <label>
+            Название
+            <input
+              type="text"
+              name="title"
+              [ngModel]="editTitle()"
+              (ngModelChange)="editTitle.set($event)"
+              required
+              placeholder="Название с сайта"
+            />
+          </label>
+          <label>
+            Цена ({{ offer.currency }})
+            <input
+              type="number"
+              name="price"
+              min="0"
+              step="1"
+              [ngModel]="editPrice()"
+              (ngModelChange)="editPrice.set($event === '' || $event == null ? null : +$event)"
+              placeholder="0"
+            />
+          </label>
+        </form>
+      }
+
+      <app-product-card [offer]="offer" [showWishlistAction]="false" />
+
+      <div class="preview__actions">
+        @if (isInWishlist()) {
+          <span class="badge">Уже в вишлисте</span>
+          <a class="btn btn--primary" routerLink="/wishlist">Открыть вишлист</a>
+        } @else {
+          <button type="button" class="btn btn--primary" (click)="onAddToWishlist()">
+            Добавить в вишлист
+          </button>
+        }
+        <a class="btn btn--ghost" [href]="offer.productUrl" target="_blank" rel="noopener">
+          Открыть в магазине
+        </a>
+      </div>
+    </section>
+  }
+</section>

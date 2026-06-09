@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-muted: #e8edf5;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #dbe3f0;
+  --accent: #4f46e5;
+  --accent-soft: #eef2ff;
+  --danger: #dc2626;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  color: inherit;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--ghost {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+.btn--danger {
+  border-color: #fecaca;
+  color: var(--danger);
+  background: #fff;
+}
+
+.btn:hover {
+  filter: brightness(0.97);
+}

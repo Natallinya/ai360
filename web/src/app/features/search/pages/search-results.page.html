@@ -1,0 +1,55 @@
+<section class="search-page">
+  <header class="search-page__header">
+    <h1>Результаты поиска</h1>
+    <app-search-form [initialQuery]="query()" (search)="onSearch($event)" />
+  </header>
+
+  @if (toast()) {
+    <p class="toast" role="status">{{ toast() }}</p>
+  }
+
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+
+  @if (sourceEntries().length > 0) {
+    <ul class="sources">
+      @for (entry of sourceEntries(); track entry[0]) {
+        <li [class.sources__item--error]="entry[1].status === 'error'">
+          <strong>{{ entry[0] }}</strong
+          >: {{ entry[1].status }}
+          @if (entry[1].count !== undefined) {
+            ({{ entry[1].count }})
+          }
+          @if (entry[1].message) {
+            — {{ entry[1].message }}
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  @if (query().length < 2) {
+    <p class="empty">Введите минимум 2 символа для поиска.</p>
+  } @else if (loading()) {
+    <p class="empty">Ищем на площадках…</p>
+  } @else if (results().length === 0 && !error()) {
+    <p class="empty">
+      По запросу «{{ query() }}» ничего не найдено. Попробуйте «phone» (live API) или «кружка»
+      (mock).
+    </p>
+  } @else if (results().length > 0) {
+    <p class="meta">Найдено: {{ results().length }} · запрос «{{ query() }}»</p>
+    <ul class="grid">
+      @for (offer of results(); track offer.id) {
+        <li>
+          <app-product-card
+            [offer]="offer"
+            (added)="showToast('Добавлено в вишлист')"
+            (duplicate)="showToast('Уже в вишлисте')"
+          />
+        </li>
+      }
+    </ul>
+  }
+</section>

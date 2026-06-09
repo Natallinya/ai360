@@ -1,0 +1,23 @@
+# Blueprint для Render: https://render.com/docs/blueprint-spec
+# После push подключите репозиторий в Render → New → Blueprint.
+services:
+  - type: web
+    name: ai360-bff
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: development
+    buildCommand: npm ci && npm run build -w api
+    startCommand: npm run start -w api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: CORS_ORIGINS
+        value: https://natallinya.github.io
+      - key: STABLE_HORDE_CLIENT_AGENT
+        value: ai360:1.0:render
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: STABLE_HORDE_API_KEY
+        sync: false

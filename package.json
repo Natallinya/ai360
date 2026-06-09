@@ -1,0 +1,23 @@
+{
+  "name": "ai360",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wishlist Aggregator — Angular + BFF monorepo",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,green \"npm run dev -w api\" \"npm run start -w web\"",
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run start -w web",
+    "build": "npm run build -w api && npm run build -w web",
+    "build:pages": "node scripts/write-web-env.mjs && npm run build -w web -- --configuration=github-pages && node scripts/prepare-github-pages.mjs",
+    "test": "npm run test -w web -- --watch=false",
+    "install:all": "npm install",
+    "playwright:install": "npm run playwright:install -w api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

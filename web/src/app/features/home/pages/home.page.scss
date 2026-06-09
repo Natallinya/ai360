@@ -1,0 +1,31 @@
+.hero {
+  max-width: 40rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.lead {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.hint {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.home-link {
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.home-link a {
+  color: var(--accent);
+  font-weight: 500;
+}

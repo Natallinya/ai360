@@ -1,0 +1,32 @@
+<article class="card">
+  <img
+    class="card__image"
+    [src]="offer().imageUrl"
+    [alt]="offer().title"
+    loading="lazy"
+    referrerpolicy="no-referrer"
+    (error)="onImageError($event)"
+  />
+
+  <div class="card__body">
+    <span class="card__source">{{ offer().source | sourceLabel }}</span>
+    <h3 class="card__title">{{ offer().title }}</h3>
+    <p class="card__price">
+      {{ offer().price | currency: offer().currency : 'symbol-narrow' : '1.0-0' }}
+    </p>
+
+    <div class="card__actions">
+      <a class="btn btn--ghost" [href]="offer().productUrl" target="_blank" rel="noopener">
+        В магазин
+      </a>
+
+      @if (showWishlistAction()) {
+        @if (inWishlist()) {
+          <span class="badge">В вишлисте</span>
+        } @else {
+          <button type="button" class="btn btn--primary" (click)="onAdd()">В вишлист</button>
+        }
+      }
+    </div>
+  </div>
+</article>

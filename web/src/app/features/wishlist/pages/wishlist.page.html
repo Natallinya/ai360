@@ -1,0 +1,88 @@
+<section class="wishlist-page">
+  <header>
+    <h1>Мой вишлист</h1>
+    <p class="meta">Активных позиций: {{ wishlist.activeCount() }}</p>
+  </header>
+
+  @if (pruning()) {
+    <p class="meta">Проверяем картинки…</p>
+  }
+
+  @if (prunedCount() > 0) {
+    <p class="pruned-note" role="status">
+      Удалено {{ prunedCount() }} позиций с битыми картинками (устаревшие ссылки WB).
+    </p>
+  }
+
+  @if (wishlist.items().length === 0) {
+    <p class="empty">
+      Список пуст.
+      <a routerLink="/">Найти через поиск</a>
+      или
+      <a routerLink="/add-by-url">добавить по ссылке</a>.
+    </p>
+  } @else {
+    <ul class="list">
+      @for (item of wishlist.items(); track item.id) {
+        <li class="item" [class.item--purchased]="item.status === 'purchased'">
+          <img
+            class="item__thumb"
+            [src]="item.offerSnapshot.imageUrl"
+            [alt]="item.offerSnapshot.title"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            (error)="onImageError(item.id)"
+          />
+          <div class="item__body">
+            <span class="item__source">{{ item.offerSnapshot.source | sourceLabel }}</span>
+            <h2 class="item__title">{{ item.offerSnapshot.title }}</h2>
+            <p class="item__price">
+              {{
+                item.offerSnapshot.price
+                  | currency
+                    : item.offerSnapshot.currency
+                    : 'symbol-narrow'
+                    : '1.0-0'
+              }}
+              <span class="item__saved">· цена при добавлении</span>
+            </p>
+            <p class="item__date">Добавлено {{ item.addedAt | date: 'd MMM y, HH:mm' }}</p>
+
+            <div class="item__actions">
+              <a
+                class="btn btn--ghost"
+                [href]="item.offerSnapshot.productUrl"
+                target="_blank"
+                rel="noopener"
+              >
+                В магазин
+              </a>
+
+              @if (item.status === 'active') {
+                <button
+                  type="button"
+                  class="btn btn--ghost"
+                  (click)="setStatus(item.id, 'purchased')"
+                >
+                  Куплено
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="btn btn--ghost"
+                  (click)="setStatus(item.id, 'active')"
+                >
+                  Вернуть в активные
+                </button>
+              }
+
+              <button type="button" class="btn btn--danger" (click)="remove(item.id)">
+                Удалить
+              </button>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

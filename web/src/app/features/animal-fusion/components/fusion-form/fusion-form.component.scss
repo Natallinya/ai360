@@ -1,0 +1,70 @@
+.fusion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 36rem;
+}
+
+.fusion-form__row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.fusion-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.fusion-form input[type='text'] {
+  font-weight: 400;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.fusion-form__plus {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding-bottom: 0.55rem;
+  text-align: center;
+}
+
+.fusion-form__styles {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.fusion-form__styles legend {
+  width: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.fusion-form__style {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 400;
+}
+
+@media (max-width: 560px) {
+  .fusion-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .fusion-form__plus {
+    display: none;
+  }
+}

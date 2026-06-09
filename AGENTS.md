@@ -4,7 +4,8 @@
 
 Агрегатор вишлиста: пользователь ищет товар текстом, видит предложения с площадок, добавляет в личный список. Покупка — только по внешней ссылке.
 
-Полная спецификация: [docs/PRODUCT_SPEC_wishlist_aggregator.md](docs/PRODUCT_SPEC_wishlist_aggregator.md).
+Полная спецификация: [docs/PRODUCT_SPEC_wishlist_aggregator.md](docs/PRODUCT_SPEC_wishlist_aggregator.md).  
+User stories и статус: [docs/USER_STORIES.md](docs/USER_STORIES.md).
 
 ## Репозиторий
 
@@ -15,30 +16,37 @@
 |------|------------|
 | `web/` | Angular 21 SPA (zoneless, standalone, signals) |
 | `docs/` | Продуктовая документация |
-| `api/` | (план) Nest/Node BFF — ключи API только здесь |
+| `api/` | Express BFF — mock + DummyJSON; Playwright для Ozon/WB import; ключи в `api/.env` |
 
-## Команды (из `web/`)
+## Команды (из **корня** репозитория)
 
 ```bash
-npm start      # dev server :4200
+npm install    # workspaces: api + web
+npm run dev    # BFF :4077 + Angular :4200
 npm run build
-npm test       # Vitest
+npm test
 ```
 
 ## Соглашения Angular
 
-- Standalone components, `inject()`, OnPush
-- Signals для UI-состояния; Reactive Forms для форм (не experimental Signal Forms без запроса)
-- Feature folders: `web/src/app/features/<feature>/`
-- Core: `web/src/app/core/` (services, models)
-- Shared: `web/src/app/shared/` (UI primitives)
+**Полные правила для Cursor:** `.cursor/rules/angular-standards.mdc` (подхватываются при работе с `web/src/**`).
+
+Кратко:
+
+- UI-компоненты → папка `components/`, файлы `*.component.ts` (+ `.html`, `.scss`)
+- Страницы с роутом → папка `pages/`, файлы `*.page.ts`
+- Standalone, `inject()`, OnPush, signals; шаблоны — `@if` / `@for`
+- Feature: `web/src/app/features/<feature>/` · core: `core/` · shared: `shared/`
+- Reactive Forms (не experimental Signal Forms без запроса)
+
+См. также: `.cursor/rules/angular-git-workflow.mdc`
 
 ## MVP scope
 
 - Поиск (mock-адаптер сначала)
 - Страница результатов
 - Вишлист (CRUD, localStorage → позже API)
-- «Добавить по ссылке» — фаза 1.1
+- «Добавить по ссылке» — `/add-by-url`, `POST /api/offers/from-url`
 
 ## Не делать без явного запроса
 
