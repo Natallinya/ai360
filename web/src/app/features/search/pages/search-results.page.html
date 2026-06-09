@@ -32,7 +32,13 @@
   @if (query().length < 2) {
     <p class="empty">Введите минимум 2 символа для поиска.</p>
   } @else if (loading()) {
-    <p class="empty">Ищем на площадках…</p>
+    <p class="empty">
+      @if (wakingServer()) {
+        Просыпаем BFF на Render… после простоя это может занять до 1 минуты.
+      } @else {
+        Ищем на площадках… обычно несколько секунд.
+      }
+    </p>
   } @else if (results().length === 0 && !error()) {
     <p class="empty">
       По запросу «{{ query() }}» ничего не найдено. Попробуйте «phone» (live API) или «кружка»

@@ -5,7 +5,8 @@ import { SearchAdapter, SearchAdapterResult } from './search-adapter.interface.j
 const WB_DEST = '-1257786';
 const WB_USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
-const MIN_REQUEST_INTERVAL_MS = 2_000;
+const MIN_REQUEST_INTERVAL_MS = 800;
+const WB_FETCH_TIMEOUT_MS = 8_000;
 const CACHE_TTL_MS = 5 * 60_000;
 const MAX_OFFERS = 20;
 
@@ -138,14 +139,14 @@ async function requestWbSearch(endpoint: string, query: string): Promise<Respons
     Origin: 'https://www.wildberries.ru',
   };
 
-  for (const delayMs of [0, 2_000, 5_000]) {
+  for (const delayMs of [0, 1_000]) {
     if (delayMs > 0) {
       await sleep(delayMs);
     }
 
     const response = await fetch(url, {
       headers,
-      signal: AbortSignal.timeout(12_000),
+      signal: AbortSignal.timeout(WB_FETCH_TIMEOUT_MS),
     });
 
     if (response.status !== 429) {
@@ -155,7 +156,7 @@ async function requestWbSearch(endpoint: string, query: string): Promise<Respons
   }
 
   lastRequestAt = Date.now();
-  return fetch(url, { headers, signal: AbortSignal.timeout(12_000) });
+  return fetch(url, { headers, signal: AbortSignal.timeout(WB_FETCH_TIMEOUT_MS) });
 }
 
 async function throttleWbRequests(): Promise<void> {

@@ -3,6 +3,9 @@ import { MockSearchAdapter } from '../adapters/mock.adapter.js';
 import { WildberriesSearchAdapter } from '../adapters/wildberries.adapter.js';
 import { SearchAdapter } from '../adapters/search-adapter.interface.js';
 import { SearchResponse, SearchSourceStatus } from '../models/product-offer.model.js';
+import { withTimeout } from '../utils/with-timeout.js';
+
+const ADAPTER_TIMEOUT_MS = 8_000;
 
 const adapters: SearchAdapter[] = [
   new MockSearchAdapter(),
@@ -19,7 +22,11 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     return { query: trimmed, offers: [], sources: {} };
   }
 
-  const results = await Promise.allSettled(adapters.map((adapter) => adapter.search(trimmed)));
+  const results = await Promise.allSettled(
+    adapters.map((adapter) =>
+      withTimeout(adapter.search(trimmed), ADAPTER_TIMEOUT_MS, adapter.id),
+    ),
+  );
 
   for (const [index, settled] of results.entries()) {
     const adapter = adapters[index]!;

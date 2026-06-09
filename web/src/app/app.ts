@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
+import { BffWarmupService } from './core/services/bff-warmup.service';
 import { WishlistService } from './core/services/wishlist.service';
 
 @Component({
@@ -12,4 +13,8 @@ import { WishlistService } from './core/services/wishlist.service';
 })
 export class App {
   protected readonly wishlist = inject(WishlistService);
+
+  constructor() {
+    inject(BffWarmupService).warmup();
+  }
 }
