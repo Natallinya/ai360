@@ -1,58 +1,65 @@
-<section class="search-page">
-  <header class="search-page__header">
-    <h1>Результаты поиска</h1>
-    <app-search-form [initialQuery]="query()" (search)="onSearch($event)" />
-  </header>
+<div class="app-search-results-page flex flex-column gap-4">
+  <div class="app-search-results-page_header flex flex-column gap-3">
+    <div class="app-search-results-page_title">Результаты поиска</div>
+    <app-search-form
+      class="app-search-results-page_search w-full"
+      [initialQuery]="query()"
+      (search)="onSearch($event)"
+    />
+  </div>
 
   @if (toast()) {
-    <p class="toast" role="status">{{ toast() }}</p>
+    <p-message class="app-search-results-page_message" severity="success">
+      {{ toast() }}
+    </p-message>
   }
 
   @if (error()) {
-    <p class="error" role="alert">{{ error() }}</p>
+    <p-message class="app-search-results-page_message" severity="error">
+      {{ error() }}
+    </p-message>
   }
 
   @if (sourceEntries().length > 0) {
-    <ul class="sources">
+    <div class="app-search-results-page_sources flex flex-wrap gap-2">
       @for (entry of sourceEntries(); track entry[0]) {
-        <li [class.sources__item--error]="entry[1].status === 'error'">
-          <strong>{{ entry[0] }}</strong
-          >: {{ entry[1].status }}
-          @if (entry[1].count !== undefined) {
-            ({{ entry[1].count }})
-          }
-          @if (entry[1].message) {
-            — {{ entry[1].message }}
-          }
-        </li>
+        <p-tag
+          class="app-search-results-page_source-chip"
+          [value]="sourceChipLabel(entry)"
+          [severity]="entry[1].status === 'error' ? 'danger' : 'secondary'"
+        />
       }
-    </ul>
+    </div>
   }
 
   @if (query().length < 2) {
-    <p class="empty">Введите минимум 2 символа для поиска.</p>
+    <p-message class="app-search-results-page_message" severity="secondary">
+      Введите минимум 2 символа для поиска.
+    </p-message>
   } @else if (loading() || wakingServer()) {
-    <p class="empty">
+    <p-message class="app-search-results-page_message" severity="info">
       @if (wakingServer()) {
         Просыпаем BFF на Render… после простоя это может занять до 1 минуты.
       } @else {
         Ищем на площадках…
       }
-    </p>
+    </p-message>
   } @else if (filteringImages() && pageOffers().length < pageSize) {
-    <p class="empty">Подбираем товары с рабочими фото…</p>
+    <p-message class="app-search-results-page_message" severity="info">
+      Подбираем товары с рабочими фото…
+    </p-message>
   } @else if (pageOffers().length === 0 && !error()) {
-    <p class="empty">
+    <p-message class="app-search-results-page_message" severity="secondary">
       По запросу «{{ query() }}» не нашли товаров с рабочими картинками. Попробуйте другой
       запрос.
-    </p>
+    </p-message>
   } @else {
-    <p class="meta">
-      Страница {{ page() }} · {{ pageOffers().length }} товаров с фото · всего подобрано
+    <p class="app-search-results-page_meta">
+      Страница {{ page() }} · {{ pageOffers().length }} товаров с фото · подобрано
       {{ validatedOffers().length }} · «{{ query() }}»
     </p>
 
-    <ul class="grid">
+    <div class="app-search-results-page_grid">
       @for (offer of pageOffers(); track offer.id) {
         <app-product-card
           [offer]="offer"
@@ -61,33 +68,32 @@
           (imageBroken)="onImageBroken(offer.id)"
         />
       }
-    </ul>
+    </div>
 
-    <nav class="pager" aria-label="Страницы результатов">
-      <button
+    <div class="app-search-results-page_pager flex align-items-center justify-content-center gap-3">
+      <p-button
         type="button"
-        class="btn btn--ghost"
+        label="← Назад"
+        severity="secondary"
+        class="app-search-results-page_pager-btn"
         [disabled]="page() <= 1 || filteringImages()"
-        (click)="goToPage(page() - 1)"
-      >
-        ← Назад
-      </button>
+        (onClick)="goToPage(page() - 1)"
+      />
 
-      <span class="pager__status">
+      <span class="app-search-results-page_pager-status">
         {{ page() }}
         @if (totalPages() > 1) {
           / {{ totalPages() }}
         }
       </span>
 
-      <button
+      <p-button
         type="button"
-        class="btn btn--ghost"
+        label="Вперёд →"
+        class="app-search-results-page_pager-btn"
         [disabled]="!canGoNext()"
-        (click)="goToPage(page() + 1)"
-      >
-        Вперёд →
-      </button>
-    </nav>
+        (onClick)="goToPage(page() + 1)"
+      />
+    </div>
   }
-</section>
+</div>

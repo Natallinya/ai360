@@ -1,0 +1,11 @@
+---
+description: Git-ветки и коммиты для репозитория ai360
+alwaysApply: true
+---
+
+# Git workflow (ai360)
+
+- Разработка — ветка **`development`**, не в `main` (релизы — merge/PR в `main`).
+- Репозиторий: https://github.com/Natallinya/ai360
+- **Не** делать `git commit` / `git push` без явной просьбы пользователя.
+- Сообщения коммитов: `feat:`, `fix:`, `docs:`, `chore:` + краткое описание на английском или русском (как в истории репо).

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ai360 v2 — Wireframes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: #e8eaee;
+      color: #1e2430;
+      line-height: 1.45;
+      padding: 24px;
+    }
+    .meta {
+      max-width: 1440px;
+      margin: 0 auto 24px;
+      font-size: 14px;
+      color: #5c6573;
+    }
+    .screen {
+      width: 1440px;
+      max-width: 100%;
+      margin: 0 auto 48px;
+      background: #f5f6f8;
+      border: 1px solid #c8ced8;
+      box-shadow: 0 8px 32px rgba(0,0,0,.08);
+    }
+    .screen__label {
+      padding: 10px 16px;
+      background: #2a3140;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 16px 48px;
+      background: #fff;
+      border-bottom: 1px solid #c8ced8;
+    }
+    .brand { font-weight: 700; font-size: 18px; }
+    .nav { margin-left: auto; display: flex; gap: 24px; font-size: 14px; color: #5c6573; }
+    .nav .on { color: #1e2430; font-weight: 600; }
+    .content {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 24px 48px;
+    }
+    h1 { font-size: 36px; margin-bottom: 12px; }
+    h2 { font-size: 28px; margin-bottom: 16px; }
+    .lead { font-size: 17px; color: #5c6573; margin-bottom: 24px; max-width: 640px; }
+    .eyebrow { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #5c6573; margin-bottom: 8px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+    .input {
+      flex: 1;
+      min-width: 280px;
+      max-width: 560px;
+      height: 48px;
+      padding: 0 16px;
+      border: 1px solid #c8ced8;
+      border-radius: 8px;
+      background: #fff;
+      color: #8b939e;
+      display: flex;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid #c8ced8;
+      background: #fff;
+    }
+    .btn--primary { background: #2a3140; color: #fff; border-color: #2a3140; }
+    .hint { font-size: 13px; color: #5c6573; margin-top: 8px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #c8ced8;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card__img { height: 160px; background: #dfe3ea; border-bottom: 1px solid #c8ced8; }
+    .card__body { padding: 14px; }
+    .card__source { font-size: 11px; color: #5c6573; font-weight: 600; }
+    .card__title { font-size: 14px; font-weight: 600; margin: 6px 0; }
+    .card__price { font-weight: 700; margin-bottom: 10px; }
+    .card__actions { display: flex; gap: 8px; }
+    .pager { display: flex; gap: 16px; align-items: center; justify-content: center; margin-top: 8px; }
+    .list-item {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid #c8ced8;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .thumb { width: 88px; height: 88px; background: #dfe3ea; border-radius: 8px; flex-shrink: 0; }
+    .list-item__body { flex: 1; }
+    .preview {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #c8ced8;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .fusion-result {
+      margin-top: 24px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid #c8ced8;
+      border-radius: 16px;
+    }
+    .fusion-result__img {
+      height: 320px;
+      background: #dfe3ea;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+    .states { display: flex; flex-direction: column; gap: 10px; }
+    .state {
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid #c8ced8;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 12px;
+      color: #5c6573;
+      background: #fff;
+      border-top: 1px solid #c8ced8;
+    }
+    @media (max-width: 1200px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <p class="meta">
+    ai360 v2 wireframes · по <code>docs/USER_STORIES.md</code> · 1440px canvas, контент 1120px ·
+    <a href="https://www.figma.com/design/7cDlAv533ptTSg7lM5kdKF">Figma (пустой файл — перенести вручную или через MCP позже)</a>
+  </p>
+
+  <section class="screen">
+    <div class="screen__label">01 Home — US-A1, US-G3</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav">
+        <span class="on">Поиск</span><span>По ссылке</span><span>Гибриды</span><span>Вишлист</span>
+      </nav>
+    </header>
+    <div class="content">
+      <p class="eyebrow">Wishlist Aggregator · MVP</p>
+      <h1>Найдите желанное на разных площадках</h1>
+      <p class="lead">Один запрос — несколько маркетплейсов — один вишлист.</p>
+      <div class="row">
+        <div class="input">наушники, кружка…</div>
+        <button class="btn btn--primary" type="button">Найти</button>
+      </div>
+      <p class="hint">Mock · WB · DummyJSON</p>
+      <p class="hint">Добавить по ссылке · Скрестить животных</p>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+
+  <section class="screen">
+    <div class="screen__label">02 Search — US-A6–A9</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav">
+        <span class="on">Поиск</span><span>По ссылке</span><span>Гибриды</span><span>Вишлист (3)</span>
+      </nav>
+    </header>
+    <div class="content">
+      <h2>Результаты поиска</h2>
+      <div class="row">
+        <div class="input">наушники</div>
+        <button class="btn btn--primary" type="button">Найти</button>
+      </div>
+      <p class="hint">Стр. 1 · 10 с фото · всего 24 · mock ok · wildberries ok</p>
+      <div class="grid">
+        <article class="card"><div class="card__img"></div><div class="card__body"><div class="card__source">Wildberries</div><div class="card__title">Наушники TWS</div><div class="card__price">2 490 ₽</div><div class="card__actions"><button class="btn" type="button">В магазин</button><button class="btn btn--primary" type="button">В вишлист</button></div></div></article>
+        <article class="card"><div class="card__img"></div><div class="card__body"><div class="card__source">Mock</div><div class="card__title">Наушники Pro</div><div class="card__price">3 990 ₽</div><div class="card__actions"><button class="btn" type="button">В магазин</button><button class="btn btn--primary" type="button">В вишлист</button></div></div></article>
+        <article class="card"><div class="card__img"></div><div class="card__body"><div class="card__source">DummyJSON</div><div class="card__title">Phone case</div><div class="card__price">$12</div><div class="card__actions"><button class="btn" type="button">В магазин</button><button class="btn btn--primary" type="button">В вишлист</button></div></div></article>
+        <article class="card"><div class="card__img"></div><div class="card__body"><div class="card__source">Wildberries</div><div class="card__title">Гарнитура</div><div class="card__price">1 890 ₽</div><div class="card__actions"><button class="btn" type="button">В магазин</button><button class="btn btn--primary" type="button">В вишлист</button></div></div></article>
+      </div>
+      <div class="pager"><button class="btn" type="button">← Назад</button><span>1 / 3</span><button class="btn" type="button">Вперёд →</button></div>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+
+  <section class="screen">
+    <div class="screen__label">03 Wishlist — US-B2–B7</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav">
+        <span>Поиск</span><span>По ссылке</span><span>Гибриды</span><span class="on">Вишлист (3)</span>
+      </nav>
+    </header>
+    <div class="content">
+      <h2>Мой вишлист</h2>
+      <p class="hint">Активных: 3</p>
+      <div class="list-item">
+        <div class="thumb"></div>
+        <div class="list-item__body">
+          <div class="card__source">Гибрид</div>
+          <div class="card__title">Бомбардиро совило</div>
+          <div>—</div>
+        </div>
+        <button class="btn" type="button">Куплено</button>
+      </div>
+      <div class="list-item">
+        <div class="thumb"></div>
+        <div class="list-item__body">
+          <div class="card__source">Wildberries</div>
+          <div class="card__title">Куртка зимняя</div>
+          <div class="card__price">8 990 ₽</div>
+        </div>
+        <button class="btn" type="button">В магазин</button>
+      </div>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+
+  <section class="screen">
+    <div class="screen__label">04 Add by URL — US-E1–E6</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav">
+        <span>Поиск</span><span class="on">По ссылке</span><span>Гибриды</span><span>Вишлист (3)</span>
+      </nav>
+    </header>
+    <div class="content">
+      <h2>Добавить по ссылке</h2>
+      <p class="lead">Вставьте URL карточки товара</p>
+      <div class="row">
+        <div class="input">https://books.toscrape.com/…</div>
+        <button class="btn btn--primary" type="button">Загрузить</button>
+      </div>
+      <div class="preview">
+        <div class="thumb" style="width:120px;height:120px"></div>
+        <div>
+          <div class="card__title">A Light in the Attic</div>
+          <div class="card__price">£51.77</div>
+          <button class="btn btn--primary" type="button" style="margin-top:12px">В вишлист</button>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+
+  <section class="screen">
+    <div class="screen__label">05 Fusion — US-F1–F6</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav">
+        <span>Поиск</span><span>По ссылке</span><span class="on">Гибриды</span><span>Вишлист (3)</span>
+      </nav>
+    </header>
+    <div class="content">
+      <h2>Скрещивание животных</h2>
+      <p class="lead">Два животных → имя + картинка → вишлист</p>
+      <div class="row">
+        <div class="input" style="max-width:180px">кот</div>
+        <span>+</span>
+        <div class="input" style="max-width:180px">сова</div>
+        <button class="btn btn--primary" type="button">Скрестить</button>
+      </div>
+      <div class="fusion-result">
+        <h2 style="font-size:22px">Бомбардиро совило</h2>
+        <p class="hint">кот × сова · Stable Horde</p>
+        <div class="fusion-result__img"></div>
+        <button class="btn btn--primary" type="button">В вишлист</button>
+      </div>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+
+  <section class="screen">
+    <div class="screen__label">06 UI States</div>
+    <header class="header">
+      <div class="brand">Wishlist</div>
+      <nav class="nav"><span class="on">Поиск</span><span>По ссылке</span><span>Гибриды</span><span>Вишлист</span></nav>
+    </header>
+    <div class="content">
+      <h2>Состояния интерфейса</h2>
+      <div class="states">
+        <div class="state">Loading: Ищем на площадках…</div>
+        <div class="state">Loading: Подбираем товары с рабочими фото…</div>
+        <div class="state">Loading: Просыпаем BFF на Render…</div>
+        <div class="state">Error: Не удалось выполнить поиск</div>
+        <div class="state">Empty: Список пуст — найти через поиск</div>
+        <div class="state">Toast: Добавлено в вишлист</div>
+      </div>
+    </div>
+    <footer class="footer">BFF · поиск · вишлист · localStorage</footer>
+  </section>
+</body>
+</html>

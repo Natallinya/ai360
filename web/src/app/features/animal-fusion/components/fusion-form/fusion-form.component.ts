@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { SelectButton } from 'primeng/selectbutton';
 
 import { AnimalFusionStyle } from '../../../../core/models/animal-fusion.model';
 
@@ -11,7 +14,7 @@ export interface FusionFormSubmit {
 
 @Component({
   selector: 'app-fusion-form',
-  imports: [FormsModule],
+  imports: [FormsModule, InputText, Button, SelectButton],
   templateUrl: './fusion-form.component.html',
   styleUrl: './fusion-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

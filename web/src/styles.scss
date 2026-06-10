@@ -1,13 +1,25 @@
+@import 'primeflex/primeflex.css';
+@import 'primeicons/primeicons.css';
+
 :root {
-  --bg: #f4f6fb;
-  --surface: #ffffff;
-  --surface-muted: #e8edf5;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: #dbe3f0;
-  --accent: #4f46e5;
-  --accent-soft: #eef2ff;
+  --bg: #fbf6f0;
+  --bg-elevated: #fff9f4;
+  --surface: #fffcf8;
+  --surface-muted: #fff9f4;
+  --accent: #c45c3e;
+  --accent-hover: #a84b32;
+  --accent-soft: #f9e8df;
+  --accent-muted: #e8b5a0;
+  --text: #2d2419;
+  --text-muted: #8a7868;
+  --border: #e8d9cc;
   --danger: #dc2626;
+  --shadow: 0 4px 24px rgba(80, 48, 24, 0.08);
+  --shadow-lg: 0 12px 40px rgba(80, 48, 24, 0.12);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --font: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
 }
 
 *,
@@ -18,51 +30,60 @@
 
 body {
   margin: 0;
-  font-family:
-    'Segoe UI',
-    system-ui,
-    -apple-system,
-    sans-serif;
-  background: var(--bg);
+  font-family: var(--font);
+  background: linear-gradient(160deg, #f3ebe2 0%, #e8dfd4 100%);
   color: var(--text);
   line-height: 1.5;
 }
 
-h1 {
-  margin: 0 0 0.75rem;
-  line-height: 1.2;
+a {
+  color: var(--accent);
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.55rem 0.9rem;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  text-decoration: none;
-  background: transparent;
-  color: inherit;
-}
-
-.btn--primary {
-  background: var(--accent);
-  color: #fff;
-}
-
-.btn--ghost {
+.p-inputtext.app-search-form_input,
+.p-inputtext.app-url-import-form_input,
+.p-inputtext.app-fusion-form_input {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 1rem;
+  border-width: 2px;
   border-color: var(--border);
+  border-radius: var(--radius);
   background: var(--surface);
+  color: var(--text);
 }
 
-.btn--danger {
-  border-color: #fecaca;
-  color: var(--danger);
-  background: #fff;
+.p-inputtext.app-search-form_input:focus,
+.p-inputtext.app-url-import-form_input:focus,
+.p-inputtext.app-fusion-form_input:focus {
+  border-color: var(--accent-muted);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-.btn:hover {
-  filter: brightness(0.97);
+.p-button {
+  font-family: var(--font);
+  font-weight: 600;
+  border-radius: var(--radius);
+}
+
+.p-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+}
+
+.p-card .p-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.p-message {
+  width: 100%;
+}
+
+.app-home-page_hero-card.p-card {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--accent-soft) 100%);
 }

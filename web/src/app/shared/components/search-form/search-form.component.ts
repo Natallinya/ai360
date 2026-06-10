@@ -6,10 +6,12 @@ import {
   output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-search-form',
-  imports: [FormsModule],
+  imports: [FormsModule, InputText, Button],
   templateUrl: './search-form.component.html',
   styleUrl: './search-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

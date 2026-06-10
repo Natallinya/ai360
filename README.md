@@ -61,10 +61,21 @@ https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html
 ```
 ai360/
 ├── package.json      # npm workspaces, npm run dev
+├── .cursor/mcp.json  # MCP для Cursor (GitHub, Angular, ai360-bff)
 ├── api/              # Express BFF
+├── mcp/ai360-bff/    # MCP → вызывает BFF
+├── mcp/ai360-rules/  # MCP → пишет .cursor/rules/
 ├── web/              # Angular 21
 └── docs/
 ```
+
+### MCP в Cursor (для разработки)
+
+```powershell
+npm run build:mcp
+```
+
+Задайте `GITHUB_PERSONAL_ACCESS_TOKEN` в переменных среды, перезагрузите MCP в Cursor (Settings → Tools & MCP). Подробно: [docs/BACKEND_PARSERS_AND_MCP.md](docs/BACKEND_PARSERS_AND_MCP.md).
 
 ## Документация
 
@@ -73,6 +84,7 @@ ai360/
 - [Добавить по ссылке](docs/ADD_BY_URL.md)
 - [Интеграции](docs/MARKETPLACE_INTEGRATIONS.md)
 - [Бэкенд, парсеры, MCP](docs/BACKEND_PARSERS_AND_MCP.md)
+- [User stories](docs/USER_STORIES.md) · [Wireframes](docs/wireframes-v2.html) · [Design warm](docs/design-v2-warm.html)
 - [Шпаргалка к докладу](docs/TALK_CURSOR_VIBE_CODING.md) · [журнал идей](docs/TALK_IDEAS_LOG.md)
 - [AGENTS.md](AGENTS.md)
 
@@ -82,6 +94,7 @@ ai360/
 npm run build
 npm test
 npm run build:pages   # сборка как для GitHub Pages
+npm run talk:pdf      # PDF-доклад → docs/talk-ai360.pdf
 ```
 
 ## CI/CD

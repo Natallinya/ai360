@@ -1,67 +1,74 @@
-<section class="add-by-url">
-  <header>
-    <h1>Добавить по ссылке</h1>
-    <p class="lead">
-      Вставьте URL товара с любого магазина. Мы загрузим название, картинку и цену из
-      открытых meta-тегов страницы (Open Graph / JSON-LD).
+<div class="app-add-by-url-page flex flex-column gap-4">
+  <div class="app-add-by-url-page_header">
+    <div class="app-add-by-url-page_title">Добавить по ссылке</div>
+    <p class="app-add-by-url-page_lead">
+      Вставьте URL карточки — мы подтянем название и фото.
     </p>
-  </header>
+  </div>
 
   @if (bffOnline() === false) {
-    <p class="error" role="alert">
-      BFF не отвечает. Из корня проекта выполните: <code>npm install</code>, затем
-      <code>npm run dev</code>
-    </p>
+    <p-message class="app-add-by-url-page_message" severity="error">
+      BFF не отвечает. Из корня проекта выполните:
+      <span class="app-add-by-url-page_code">npm install</span>, затем
+      <span class="app-add-by-url-page_code">npm run dev</span>
+    </p-message>
   }
 
   <app-url-import-form [loading]="loading()" (submitUrl)="onLoadUrl($event)" />
 
-  <section class="test-links">
-    <h2>Тестовые ссылки (должны загрузиться)</h2>
-    <p class="test-links__note">
+  <p-card class="app-add-by-url-page_test-links w-full" styleClass="app-add-by-url-page_test-card">
+    <div class="app-add-by-url-page_test-title">Тестовые ссылки (должны загрузиться)</div>
+    <p class="app-add-by-url-page_test-note">
       Ниже — ссылки без антибота (простой fetch). WB / Allegro / Яндекс Маркет требуют
-      Playwright: <code>npm run playwright:install</code>.
+      Playwright:
+      <span class="app-add-by-url-page_code">npm run playwright:install</span>.
     </p>
-    <ul>
+    <div class="app-add-by-url-page_test-list flex flex-column gap-2">
       @for (item of testUrls; track item.url) {
-        <li>
-          <button type="button" class="link-btn" (click)="useTestUrl(item.url)">
-            {{ item.label }}
-          </button>
-          <span class="test-links__url">{{ item.url }}</span>
-        </li>
+        <div class="app-add-by-url-page_test-item">
+          <p-button
+            type="button"
+            [label]="item.label"
+            [link]="true"
+            class="app-add-by-url-page_test-link"
+            (onClick)="useTestUrl(item.url)"
+          />
+          <span class="app-add-by-url-page_test-url">{{ item.url }}</span>
+        </div>
       }
-    </ul>
-  </section>
+    </div>
+  </p-card>
 
   @if (toast()) {
-    <p class="toast" role="status">{{ toast() }}</p>
+    <p-message class="app-add-by-url-page_message" severity="success">{{ toast() }}</p-message>
   }
 
   @if (error()) {
-    <p class="error" role="alert">{{ error() }}</p>
+    <p-message class="app-add-by-url-page_message" severity="error">{{ error() }}</p-message>
   }
 
   @if (warnings().length > 0) {
-    <ul class="warnings">
+    <div class="app-add-by-url-page_warnings flex flex-column gap-2">
       @for (warning of warnings(); track warning) {
-        <li>{{ warning }}</li>
+        <p-message class="app-add-by-url-page_message" severity="warn">{{ warning }}</p-message>
       }
-    </ul>
+    </div>
   }
 
   @if (displayOffer(); as offer) {
-    <section class="preview">
-      <h2>Предпросмотр</h2>
+    <p-card class="app-add-by-url-page_preview w-full" styleClass="app-add-by-url-page_preview-card">
+      <div class="app-add-by-url-page_preview-title">Предпросмотр</div>
 
       @if (needsManualEdit()) {
-        <form class="manual-edit" (ngSubmit)="onAddToWishlist()">
-          <p class="manual-edit__hint">
+        <div class="app-add-by-url-page_manual flex flex-column gap-2">
+          <p class="app-add-by-url-page_manual-hint">
             Автопарсинг неполный — уточните название и цену вручную, они сохранятся в вишлист.
           </p>
-          <label>
-            Название
+          <div class="app-add-by-url-page_manual-field flex flex-column gap-1">
+            <p class="app-add-by-url-page_manual-label">Название</p>
             <input
+              pInputText
+              class="app-add-by-url-page_manual-input w-full"
               type="text"
               name="title"
               [ngModel]="editTitle()"
@@ -69,10 +76,12 @@
               required
               placeholder="Название с сайта"
             />
-          </label>
-          <label>
-            Цена ({{ offer.currency }})
+          </div>
+          <div class="app-add-by-url-page_manual-field flex flex-column gap-1">
+            <p class="app-add-by-url-page_manual-label">Цена ({{ offer.currency }})</p>
             <input
+              pInputText
+              class="app-add-by-url-page_manual-input w-full"
               type="number"
               name="price"
               min="0"
@@ -81,25 +90,59 @@
               (ngModelChange)="editPrice.set($event === '' || $event == null ? null : +$event)"
               placeholder="0"
             />
-          </label>
-        </form>
+          </div>
+        </div>
       }
 
-      <app-product-card [offer]="offer" [showWishlistAction]="false" />
-
-      <div class="preview__actions">
-        @if (isInWishlist()) {
-          <span class="badge">Уже в вишлисте</span>
-          <a class="btn btn--primary" routerLink="/wishlist">Открыть вишлист</a>
-        } @else {
-          <button type="button" class="btn btn--primary" (click)="onAddToWishlist()">
-            Добавить в вишлист
-          </button>
-        }
-        <a class="btn btn--ghost" [href]="offer.productUrl" target="_blank" rel="noopener">
-          Открыть в магазине
-        </a>
+      <div class="app-add-by-url-page_preview-row flex align-items-start gap-3 flex-wrap">
+        <p-image
+          class="app-add-by-url-page_preview-image"
+          [src]="offer.imageUrl"
+          [alt]="offer.title"
+          width="120"
+          height="120"
+          [preview]="false"
+          imageClass="app-add-by-url-page_preview-thumb"
+        />
+        <div class="app-add-by-url-page_preview-body flex flex-column gap-2 flex-1">
+          <p-tag class="app-add-by-url-page_preview-source" [value]="offer.source" severity="warn" />
+          <div class="app-add-by-url-page_preview-name">{{ offer.title }}</div>
+          <p class="app-add-by-url-page_preview-price">
+            {{ offer.price | currency: offer.currency : 'symbol-narrow' : '1.0-0' }}
+          </p>
+        </div>
       </div>
-    </section>
+
+      <ng-template pTemplate="footer">
+        <div class="app-add-by-url-page_preview-actions flex flex-wrap gap-2 align-items-center">
+          @if (isInWishlist()) {
+            <p-tag value="Уже в вишлисте" severity="success" class="app-add-by-url-page_in-wishlist" />
+            <p-button
+              type="button"
+              label="Открыть вишлист"
+              [outlined]="true"
+              severity="secondary"
+              class="app-add-by-url-page_wishlist-btn"
+              (onClick)="goWishlist()"
+            />
+          } @else {
+            <p-button
+              type="button"
+              label="В вишлист"
+              class="app-add-by-url-page_add-btn"
+              (onClick)="onAddToWishlist()"
+            />
+          }
+          <p-button
+            type="button"
+            label="Открыть в магазине"
+            [outlined]="true"
+            severity="secondary"
+            class="app-add-by-url-page_shop-btn"
+            (onClick)="openShop(offer.productUrl)"
+          />
+        </div>
+      </ng-template>
+    </p-card>
   }
-</section>
+</div>

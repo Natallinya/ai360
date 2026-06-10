@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-url-import-form',
-  imports: [FormsModule],
+  imports: [FormsModule, InputText, Button],
   templateUrl: './url-import-form.component.html',
   styleUrl: './url-import-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

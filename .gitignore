@@ -12,7 +12,11 @@ web/.angular/
 web/coverage/
 
 # IDE
-.cursor/
+.cursor/*
+!.cursor/mcp.json
+!.cursor/mcp.prod.example.json
+!.cursor/rules/
+!.cursor/rules/**
 .idea/
 *.swp
 *.swo

@@ -2,6 +2,11 @@ import { createHash } from 'node:crypto';
 
 import { env } from '../config/env.js';
 import {
+  FUSION_HORDE_CFG_SCALE,
+  FUSION_HORDE_GENERATION_SIZE,
+  FUSION_HORDE_STEPS,
+} from '../config/fusion-image.config.js';
+import {
   AnimalFusionRequest,
   AnimalFusionResponse,
   AnimalFusionStyle,
@@ -16,8 +21,8 @@ import {
 } from './animal-fusion-cache.service.js';
 
 const ANIMAL_NAME_RE = /^[\p{L}\p{N}\s\-]{2,40}$/u;
-const HORDE_POLL_INTERVAL_MS = 5_000;
-const HORDE_MAX_POLLS = 72;
+const HORDE_POLL_INTERVAL_MS = 3_000;
+const HORDE_MAX_POLLS = 60;
 const HORDE_SUBMIT_TIMEOUT_MS = 60_000;
 const HORDE_STATUS_TIMEOUT_MS = 45_000;
 const HORDE_IMAGE_FETCH_TIMEOUT_MS = 45_000;
@@ -116,7 +121,12 @@ async function requestStableHordeImage(
     body: JSON.stringify({
       prompt,
       negative_prompt: FUSION_NEGATIVE_PROMPT,
-      params: { width: 512, height: 512, steps: 28, cfg_scale: 7.5 },
+      params: {
+        width: FUSION_HORDE_GENERATION_SIZE,
+        height: FUSION_HORDE_GENERATION_SIZE,
+        steps: FUSION_HORDE_STEPS,
+        cfg_scale: FUSION_HORDE_CFG_SCALE,
+      },
       nsfw: false,
       censor_nsfw: true,
     }),
@@ -250,10 +260,10 @@ async function generateWithOpenAi(params: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'dall-e-3',
+      model: 'dall-e-2',
       prompt: params.prompt,
       n: 1,
-      size: '1024x1024',
+      size: '256x256',
     }),
     signal: AbortSignal.timeout(60_000),
   });

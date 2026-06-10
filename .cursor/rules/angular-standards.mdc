@@ -1,0 +1,99 @@
+---
+description: Angular 21 — структура папок, именование файлов и best practices (ai360/web)
+globs: web/src/**/*
+alwaysApply: false
+---
+
+# Angular standards (ai360)
+
+Проект: **Angular 21**, standalone, zoneless, signals. Код только в `web/src/app/`.
+
+## Структура feature
+
+```
+features/<feature-name>/
+├── pages/           # экраны с маршрутом (smart / container)
+├── components/      # переиспользуемые UI-компоненты фичи
+└── (опционально) services/, models/ — только если логика не shared
+```
+
+Глобально:
+
+- `core/` — singleton-сервисы, модели, guards, interceptors
+- `shared/components/` — UI без привязки к одной фиче
+- `shared/pipes/`, `shared/directives/` — по типу файла
+
+## Именование файлов (обязательно)
+
+| Тип | Папка | Шаблон имени | Пример |
+|-----|--------|--------------|--------|
+| UI-компонент | `components/` | `*.component.ts` | `product-card.component.ts` |
+| Страница (route) | `pages/` | `*.page.ts` | `search-results.page.ts` |
+| Сервис | `services/` | `*.service.ts` | `wishlist.service.ts` |
+| Модель / типы | `models/` | `*.model.ts` | `product-offer.model.ts` |
+| Pipe | `pipes/` | `*.pipe.ts` | `source-label.pipe.ts` |
+| Routes | рядом с feature или `app/` | `*.routes.ts` | `app.routes.ts` |
+| Тест | рядом с исходником | `*.spec.ts` | `product-card.component.spec.ts` |
+
+Каждый компонент — **отдельная папка** с colocated файлами:
+
+```
+components/product-card/
+  product-card.component.ts
+  product-card.component.html
+  product-card.component.scss
+  product-card.component.spec.ts   # когда пишем тесты
+```
+
+❌ `product-card.ts` в корне feature  
+❌ `home.ts` без суффикса `.page` / `.component`  
+❌ шаблон/стили внутри `.ts` (кроме тривиального inline по согласованию)
+
+## Компоненты
+
+- Только **standalone**; не создавать `NgModule`.
+- `changeDetection: ChangeDetectionStrategy.OnPush` по умолчанию.
+- DI через `inject()`, не constructor injection.
+- Входы/выходы: `input()`, `output()`; состояние UI — `signal` / `computed`.
+- Селектор: `app-<kebab-case>` (например `app-product-card`).
+- Класс: суффикс `Component` или `Page` (`ProductCardComponent`, `HomePage`).
+
+```typescript
+@Component({
+  selector: 'app-product-card',
+  imports: [CurrencyPipe],
+  templateUrl: './product-card.component.html',
+  styleUrl: './product-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ProductCardComponent { }
+```
+
+## Шаблоны и стили
+
+- Control flow: `@if`, `@for`, `@switch` — не `*ngIf` / `*ngFor`.
+- Стили: component SCSS; общие токены — `src/styles.scss`.
+- Без логики в шаблоне: тяжёлое — в класс / pipe / computed.
+
+## Сервисы и данные
+
+- `providedIn: 'root'` только для truly global; иначе — providers на уровне route/feature.
+- HTTP и секреты API — **не в frontend**; позже только через BFF (`api/`).
+- Модели — интерфейсы/types в `*.model.ts`, без «божественных» DTO в компонентах.
+
+## Роутинг
+
+- Маршруты в `app.routes.ts` или lazy `*.routes.ts`.
+- `title` на route для вкладки браузера.
+- Страницы — классы из `pages/*.page.ts`.
+
+## Тесты
+
+- Vitest + `*.spec.ts` рядом с файлом.
+- Для компонентов с роутером — `provideRouter([])` в `TestBed`.
+
+## Не использовать без запроса
+
+- NgModules, `zone.js`, experimental Signal Forms
+- `any`, подписки без отписки (предпочитать `async` pipe / signals / `takeUntilDestroyed`)
+- Дефолтный welcome-бойлерплейт Angular CLI в прод-коде

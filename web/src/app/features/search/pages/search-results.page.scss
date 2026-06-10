@@ -1,71 +1,67 @@
-.search-page__header {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+.app-search-results-page {
+  &_title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 1.15;
+  }
+
+  &_search {
+    display: block;
+    max-width: 30rem;
+  }
+
+  &_message {
+    width: 100%;
+  }
+
+  &_meta {
+    margin: 0;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+
+  &_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+    align-items: stretch;
+
+    app-product-card {
+      height: 100%;
+    }
+  }
+
+  &_pager {
+    margin-top: 0.5rem;
+  }
+
+  &_pager-status {
+    min-width: 4rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
 }
 
-.meta {
-  color: var(--text-muted);
-  margin-bottom: 1rem;
+@media (max-width: 1200px) {
+  .app-search-results-page {
+    &_grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }
 
-.grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  align-items: start;
-}
-
-.pager {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.pager__status {
-  min-width: 4rem;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.9375rem;
-}
-
-.empty {
-  color: var(--text-muted);
-}
-
-.toast {
-  padding: 0.75rem 1rem;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.error {
-  padding: 0.75rem 1rem;
-  background: #fef2f2;
-  color: var(--danger);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.sources {
-  list-style: none;
-  margin: 0 0 1rem;
-  padding: 0;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.sources__item--error {
-  color: var(--danger);
+@media (max-width: 560px) {
+  .app-search-results-page {
+    &_grid {
+      grid-template-columns: 1fr;
+    }
+  }
 }

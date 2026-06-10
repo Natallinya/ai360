@@ -8,6 +8,10 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { PrimeTemplate } from 'primeng/api';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Tag } from 'primeng/tag';
 
 import { ProductOffer } from '../../../core/models/product-offer.model';
 import { WishlistService } from '../../../core/services/wishlist.service';
@@ -15,13 +19,13 @@ import { SourceLabelPipe } from '../../utils/source-label.pipe';
 
 @Component({
   selector: 'app-product-card',
-  imports: [CurrencyPipe, SourceLabelPipe],
+  imports: [CurrencyPipe, SourceLabelPipe, Button, Card, PrimeTemplate, Tag],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'product-card-host',
-    '[class.product-card-host--hidden]': 'imageFailed()',
+    class: 'app-product-card',
+    '[class.app-product-card_hidden]': 'imageFailed()',
   },
 })
 export class ProductCardComponent {
@@ -40,6 +44,10 @@ export class ProductCardComponent {
     this.wishlist.items();
     return this.wishlist.isInWishlist(this.offer().productUrl);
   });
+
+  protected openShop(): void {
+    window.open(this.offer().productUrl, '_blank', 'noopener');
+  }
 
   protected onAdd(): void {
     const added = this.wishlist.add(this.offer());

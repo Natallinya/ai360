@@ -1,32 +1,47 @@
-<article class="card">
-  <img
-    class="card__image"
-    [src]="offer().imageUrl"
-    [alt]="offer().title"
-    loading="lazy"
-    referrerpolicy="no-referrer"
-    (error)="onImageError()"
-  />
+<p-card class="app-product-card_card h-full" styleClass="app-product-card_card-surface">
+  <ng-template pTemplate="header">
+    <img
+      class="app-product-card_image-el w-full"
+      [src]="offer().imageUrl"
+      [alt]="offer().title"
+      loading="lazy"
+      (error)="onImageError()"
+    />
+  </ng-template>
 
-  <div class="card__body">
-    <span class="card__source">{{ offer().source | sourceLabel }}</span>
-    <h3 class="card__title">{{ offer().title }}</h3>
-    <p class="card__price">
+  <div class="app-product-card_body flex flex-column flex-1 gap-2">
+    <span class="app-product-card_source">{{ offer().source | sourceLabel }}</span>
+    <div class="app-product-card_title">{{ offer().title }}</div>
+    <p class="app-product-card_price">
       {{ offer().price | currency: offer().currency : 'symbol-narrow' : '1.0-0' }}
     </p>
+  </div>
 
-    <div class="card__actions">
-      <a class="btn btn--ghost" [href]="offer().productUrl" target="_blank" rel="noopener">
-        В магазин
-      </a>
+  <ng-template pTemplate="footer">
+    <div class="app-product-card_actions flex flex-wrap gap-2 align-items-center">
+      <p-button
+        type="button"
+        label="В магазин"
+        [outlined]="true"
+        severity="secondary"
+        class="app-product-card_shop-btn flex-1"
+        styleClass="app-product-card_shop-btn-inner w-full"
+        (onClick)="openShop()"
+      />
 
       @if (showWishlistAction()) {
         @if (inWishlist()) {
-          <span class="badge">В вишлисте</span>
+          <p-tag class="app-product-card_in-wishlist" value="В вишлисте" severity="success" />
         } @else {
-          <button type="button" class="btn btn--primary" (click)="onAdd()">В вишлист</button>
+          <p-button
+            type="button"
+            label="В вишлист"
+            class="app-product-card_wishlist-btn flex-1"
+            styleClass="app-product-card_wishlist-btn-inner w-full"
+            (onClick)="onAdd()"
+          />
         }
       }
     </div>
-  </div>
-</article>
+  </ng-template>
+</p-card>

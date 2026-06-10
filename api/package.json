@@ -7,7 +7,8 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "build": "tsc -p tsconfig.json",
-    "playwright:install": "playwright install chromium"
+    "playwright:install": "playwright install chromium",
+    "talk:pdf": "node ../scripts/generate-talk-pdf.mjs"
   },
   "dependencies": {
     "cheerio": "^1.2.0",

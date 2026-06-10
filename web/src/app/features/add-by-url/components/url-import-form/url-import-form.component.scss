@@ -1,29 +1,19 @@
-.url-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+.app-url-import-form {
+  &_label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
 
-.url-form__label {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
+  &_input {
+    min-width: min(100%, 12.5rem);
+    max-width: 40rem;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9375rem !important;
+  }
 
-.url-form__input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 1rem;
-  background: var(--surface);
-  color: var(--text);
-}
-
-.url-form__input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-.url-form__input:disabled {
-  opacity: 0.7;
+  &_submit {
+    flex-shrink: 0;
+  }
 }

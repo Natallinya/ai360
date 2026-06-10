@@ -1,13 +1,22 @@
-<form class="search-form" (ngSubmit)="onSubmit()">
-  <input
-    class="search-form__input"
-    type="search"
-    name="q"
-    [placeholder]="placeholder()"
-    [(ngModel)]="queryText"
-    minlength="2"
-    required
-    autocomplete="off"
+<div class="app-search-form flex align-items-stretch flex-wrap gap-2 w-full">
+  <div class="app-search-form_bar flex flex-1 align-items-stretch">
+    <input
+      pInputText
+      class="app-search-form_input flex-1 w-full"
+      type="search"
+      name="q"
+      [placeholder]="placeholder()"
+      [(ngModel)]="queryText"
+      minlength="2"
+      required
+      autocomplete="off"
+      (keydown.enter)="$event.preventDefault(); onSubmit()"
+    />
+  </div>
+  <p-button
+    type="button"
+    [label]="submitLabel()"
+    styleClass="app-search-form_submit"
+    (onClick)="onSubmit()"
   />
-  <button class="btn btn--primary" type="submit">{{ submitLabel() }}</button>
-</form>
+</div>

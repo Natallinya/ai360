@@ -1,19 +1,37 @@
+import { CurrencyPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { PrimeTemplate } from 'primeng/api';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Image } from 'primeng/image';
+import { InputText } from 'primeng/inputtext';
+import { Message } from 'primeng/message';
+import { Tag } from 'primeng/tag';
 
 import { ProductOffer } from '../../../core/models/product-offer.model';
 import { apiUrl } from '../../../core/utils/api-url';
 import { OffersApiService } from '../../../core/services/offers-api.service';
 import { WishlistService } from '../../../core/services/wishlist.service';
-import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { TEST_PRODUCT_URLS } from '../data/test-product-urls';
 import { UrlImportFormComponent } from '../components/url-import-form/url-import-form.component';
 
 @Component({
   selector: 'app-add-by-url-page',
-  imports: [RouterLink, FormsModule, UrlImportFormComponent, ProductCardComponent],
+  imports: [
+    FormsModule,
+    UrlImportFormComponent,
+    Button,
+    InputText,
+    CurrencyPipe,
+    Card,
+    Image,
+    Message,
+    PrimeTemplate,
+    Tag,
+  ],
   templateUrl: './add-by-url.page.html',
   styleUrl: './add-by-url.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,6 +128,14 @@ export class AddByUrlPage {
   protected isInWishlist(): boolean {
     const offer = this.preview();
     return offer ? this.wishlist.isInWishlist(offer.productUrl) : false;
+  }
+
+  protected openShop(url: string): void {
+    window.open(url, '_blank', 'noopener');
+  }
+
+  protected goWishlist(): void {
+    void this.router.navigate(['/wishlist']);
   }
 
   private showToast(message: string): void {

@@ -1,59 +1,57 @@
-<form class="fusion-form" (ngSubmit)="onSubmit()">
-  <div class="fusion-form__row">
-    <label>
-      Первое животное
+<div class="app-fusion-form flex flex-column gap-3 w-full">
+  <div class="app-fusion-form_row flex align-items-end flex-wrap gap-2">
+    <div class="app-fusion-form_field flex flex-column gap-1">
+      <p class="app-fusion-form_label">Первое</p>
       <input
+        pInputText
+        class="app-fusion-form_input"
         type="text"
         name="animal1"
         [(ngModel)]="animal1"
         placeholder="кот"
-        list="fusion-animals"
         required
         maxlength="40"
         [disabled]="loading()"
+        (keydown.enter)="$event.preventDefault(); onSubmit()"
       />
-    </label>
+    </div>
 
-    <span class="fusion-form__plus" aria-hidden="true">+</span>
+    <span class="app-fusion-form_plus">+</span>
 
-    <label>
-      Второе животное
+    <div class="app-fusion-form_field flex flex-column gap-1">
+      <p class="app-fusion-form_label">Второе</p>
       <input
+        pInputText
+        class="app-fusion-form_input"
         type="text"
         name="animal2"
         [(ngModel)]="animal2"
         placeholder="сова"
-        list="fusion-animals"
         required
         maxlength="40"
         [disabled]="loading()"
+        (keydown.enter)="$event.preventDefault(); onSubmit()"
       />
-    </label>
+    </div>
+
+    <p-button
+      type="button"
+      [label]="loading() ? 'Генерация 15–60 с…' : 'Скрестить'"
+      styleClass="app-fusion-form_submit"
+      [disabled]="loading()"
+      (onClick)="onSubmit()"
+    />
   </div>
 
-  <fieldset class="fusion-form__styles">
-    <legend>Стиль</legend>
-    @for (item of styles; track item.id) {
-      <label class="fusion-form__style">
-        <input
-          type="radio"
-          name="style"
-          [value]="item.id"
-          [(ngModel)]="style"
-          [disabled]="loading()"
-        />
-        {{ item.label }}
-      </label>
-    }
-  </fieldset>
-
-  <datalist id="fusion-animals">
-    @for (animal of animalSuggestions; track animal) {
-      <option [value]="animal"></option>
-    }
-  </datalist>
-
-  <button class="btn btn--primary" type="submit" [disabled]="loading()">
-    {{ loading() ? 'Генерация 15–60 с…' : 'Скрестить' }}
-  </button>
-</form>
+  <div class="app-fusion-form_styles flex flex-column gap-2">
+    <p class="app-fusion-form_label">Стиль</p>
+    <p-selectbutton
+      class="app-fusion-form_style-toggle"
+      name="fusionStyle"
+      [options]="styles"
+      [(ngModel)]="style"
+      optionLabel="label"
+      optionValue="id"
+    />
+  </div>
+</div>

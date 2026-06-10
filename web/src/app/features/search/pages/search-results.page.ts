@@ -3,6 +3,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 
+import { Button } from 'primeng/button';
+import { Message } from 'primeng/message';
+import { Tag } from 'primeng/tag';
+
 import { ProductOffer } from '../../../core/models/product-offer.model';
 import { SearchSourceStatus } from '../../../core/models/search-response.model';
 import { environment } from '../../../../environments/environment';
@@ -16,12 +20,12 @@ import {
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { SearchFormComponent } from '../../../shared/components/search-form/search-form.component';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 9;
 const MAX_WB_PAGES = 8;
 
 @Component({
   selector: 'app-search-results-page',
-  imports: [SearchFormComponent, ProductCardComponent],
+  imports: [SearchFormComponent, ProductCardComponent, Button, Message, Tag],
   templateUrl: './search-results.page.html',
   styleUrl: './search-results.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -108,6 +112,18 @@ export class SearchResultsPage {
 
   protected sourceEntries(): [string, SearchSourceStatus][] {
     return Object.entries(this.sources());
+  }
+
+  protected sourceChipLabel(entry: [string, SearchSourceStatus]): string {
+    const [name, status] = entry;
+    let label = `${name}: ${status.status}`;
+    if (status.count !== undefined) {
+      label += ` (${status.count})`;
+    }
+    if (status.message) {
+      label += ` — ${status.message}`;
+    }
+    return label;
   }
 
   protected onImageBroken(offerId: string): void {

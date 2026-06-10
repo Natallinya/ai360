@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 
 import { AnimalFusionResponse, AnimalFusionStyle } from '../models/animal-fusion.model';
+import { environment } from '../../../environments/environment';
 import { apiUrl } from '../utils/api-url';
 
 export interface FuseAnimalsPayload {
@@ -17,11 +18,13 @@ export class AnimalFusionApiService {
 
   async fuseAnimals(payload: FuseAnimalsPayload): Promise<AnimalFusionResponse> {
     const response = await firstValueFrom(
-      this.http.post<AnimalFusionResponse>('/api/animal-fusion', {
-        animal1: payload.animal1.trim(),
-        animal2: payload.animal2.trim(),
-        style: payload.style ?? 'cute',
-      }),
+      this.http
+        .post<AnimalFusionResponse>('/api/animal-fusion', {
+          animal1: payload.animal1.trim(),
+          animal2: payload.animal2.trim(),
+          style: payload.style ?? 'cute',
+        })
+        .pipe(timeout(environment.fusionTimeoutMs)),
     );
 
     return {

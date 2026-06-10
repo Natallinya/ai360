@@ -1,26 +1,47 @@
-<div class="layout">
-  <header class="header">
-    <a class="brand" routerLink="/">Wishlist</a>
-    <nav class="nav">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+<div class="app-root_layout flex flex-column min-h-screen">
+  <div class="app-root_header flex align-items-center gap-4">
+    <a class="app-root_brand" routerLink="/">Wishlist</a>
+    <div class="app-root_nav flex align-items-center gap-2 ml-auto">
+      <a
+        class="app-root_nav-link"
+        routerLink="/"
+        routerLinkActive="app-root_nav-link_active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         Поиск
       </a>
-      <a routerLink="/add-by-url" routerLinkActive="active">По ссылке</a>
-      <a routerLink="/fusion" routerLinkActive="active">Гибриды</a>
-      <a routerLink="/wishlist" routerLinkActive="active">
+      <a
+        class="app-root_nav-link"
+        routerLink="/add-by-url"
+        routerLinkActive="app-root_nav-link_active"
+      >
+        По ссылке
+      </a>
+      <a
+        class="app-root_nav-link"
+        routerLink="/fusion"
+        routerLinkActive="app-root_nav-link_active"
+      >
+        Гибриды
+      </a>
+      <a
+        class="app-root_nav-link"
+        routerLink="/wishlist"
+        routerLinkActive="app-root_nav-link_active"
+      >
         Вишлист
         @if (wishlist.activeCount() > 0) {
-          <span class="nav__badge">{{ wishlist.activeCount() }}</span>
+          <span class="app-root_badge">{{ wishlist.activeCount() }}</span>
         }
       </a>
-    </nav>
-  </header>
+    </div>
+  </div>
 
-  <main class="main">
+  <div class="app-root_main flex-1">
     <router-outlet />
-  </main>
+  </div>
 
-  <footer class="footer">
-    BFF · поиск + импорт по URL · вишлист в localStorage
-  </footer>
+  <div class="app-root_footer">
+    Поиск · вишлист · подарки без лишней суеты
+  </div>
 </div>

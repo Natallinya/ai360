@@ -1,17 +1,24 @@
-<form class="url-form" (ngSubmit)="onSubmit()">
-  <label class="url-form__label" for="product-url">Ссылка на товар</label>
-  <input
-    id="product-url"
-    class="url-form__input"
-    type="url"
-    name="url"
-    [(ngModel)]="urlText"
-    placeholder="https://books.toscrape.com/catalogue/..."
-    required
-    autocomplete="off"
-    [disabled]="loading()"
-  />
-  <button class="btn btn--primary" type="submit" [disabled]="loading()">
-    {{ loading() ? 'Загрузка…' : submitLabel() }}
-  </button>
-</form>
+<div class="app-url-import-form flex flex-column gap-2 w-full">
+  <p class="app-url-import-form_label">Ссылка на товар</p>
+  <div class="app-url-import-form_row flex align-items-stretch flex-wrap gap-2">
+    <input
+      pInputText
+      class="app-url-import-form_input flex-1"
+      type="url"
+      name="url"
+      [(ngModel)]="urlText"
+      placeholder="https://books.toscrape.com/catalogue/..."
+      required
+      autocomplete="off"
+      [disabled]="loading()"
+      (keydown.enter)="$event.preventDefault(); onSubmit()"
+    />
+    <p-button
+      type="button"
+      [label]="loading() ? 'Загрузка…' : submitLabel()"
+      styleClass="app-url-import-form_submit"
+      [disabled]="loading()"
+      (onClick)="onSubmit()"
+    />
+  </div>
+</div>

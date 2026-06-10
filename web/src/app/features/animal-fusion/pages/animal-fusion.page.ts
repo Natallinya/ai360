@@ -1,6 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { PrimeTemplate } from 'primeng/api';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Message } from 'primeng/message';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 import { AnimalFusionResponse } from '../../../core/models/animal-fusion.model';
 import { ProductOffer } from '../../../core/models/product-offer.model';
@@ -13,7 +18,7 @@ import {
 
 @Component({
   selector: 'app-animal-fusion-page',
-  imports: [RouterLink, FusionFormComponent],
+  imports: [FusionFormComponent, Button, Card, Message, PrimeTemplate],
   templateUrl: './animal-fusion.page.html',
   styleUrl: './animal-fusion.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,18 +32,19 @@ export class AnimalFusionPage {
   protected readonly error = signal<string | null>(null);
   protected readonly result = signal<AnimalFusionResponse | null>(null);
   protected readonly toast = signal<string | null>(null);
-  protected readonly imageLoading = signal(false);
+
+  protected goWishlist(): void {
+    void this.router.navigate(['/wishlist']);
+  }
 
   protected async onFuse(payload: FusionFormSubmit): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
     this.result.set(null);
-    this.imageLoading.set(false);
 
     try {
       const response = await this.fusionApi.fuseAnimals(payload);
       this.result.set(response);
-      this.imageLoading.set(true);
     } catch (err) {
       this.error.set(this.extractError(err));
     } finally {
@@ -46,13 +52,8 @@ export class AnimalFusionPage {
     }
   }
 
-  protected onImageLoaded(): void {
-    this.imageLoading.set(false);
-  }
-
   protected onImageError(): void {
-    this.imageLoading.set(false);
-    this.error.set('Картинка не загрузилась. Попробуйте ещё раз через минуту.');
+    this.error.set('Картинка не загрузилась. Проверьте, что BFF запущен, и попробуйте снова.');
   }
 
   protected addToWishlist(): void {

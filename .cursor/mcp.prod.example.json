@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai360-bff": {
+      "command": "node",
+      "args": ["mcp/ai360-bff/dist/index.js"],
+      "env": {
+        "AI360_BFF_URL": "https://ai360.onrender.com"
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 {
+  // Дублирует angular-cli для VS Code. Основной конфиг Cursor: ../../.cursor/mcp.json
   // For more information, visit: https://angular.dev/ai/mcp
   "servers": {
     "angular-cli": {

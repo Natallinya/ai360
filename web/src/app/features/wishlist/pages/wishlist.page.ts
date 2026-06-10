@@ -1,6 +1,10 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Image } from 'primeng/image';
+import { Message } from 'primeng/message';
 
 import { WishlistItemStatus } from '../../../core/models/wishlist-item.model';
 import { WishlistService } from '../../../core/services/wishlist.service';
@@ -8,7 +12,7 @@ import { SourceLabelPipe } from '../../../shared/utils/source-label.pipe';
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [CurrencyPipe, DatePipe, RouterLink, SourceLabelPipe],
+  imports: [CurrencyPipe, DatePipe, RouterLink, SourceLabelPipe, Button, Card, Image, Message],
   templateUrl: './wishlist.page.html',
   styleUrl: './wishlist.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,8 +34,8 @@ export class WishlistPage implements OnInit {
     this.wishlist.remove(id);
   }
 
-  protected onImageError(itemId: string): void {
-    this.wishlist.remove(itemId);
+  protected openShop(url: string): void {
+    window.open(url, '_blank', 'noopener');
   }
 
   private async pruneBrokenOnLoad(): Promise<void> {

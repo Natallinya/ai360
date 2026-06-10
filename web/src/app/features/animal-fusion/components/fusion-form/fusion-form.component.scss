@@ -1,70 +1,44 @@
-.fusion-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.app-fusion-form {
   max-width: 36rem;
-}
 
-.fusion-form__row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 0.75rem;
-  align-items: end;
-}
+  &_label {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
 
-.fusion-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
+  &_input {
+    min-width: 12.5rem;
+    max-width: 20rem;
+    padding: 0.75rem 1rem !important;
+  }
 
-.fusion-form input[type='text'] {
-  font-weight: 400;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-}
+  &_plus {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding-bottom: 0.625rem;
+  }
 
-.fusion-form__plus {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--accent);
-  padding-bottom: 0.55rem;
-  text-align: center;
-}
+  &_field {
+    flex: 1;
+    min-width: 10rem;
+  }
 
-.fusion-form__styles {
-  border: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.fusion-form__styles legend {
-  width: 100%;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.fusion-form__style {
-  flex-direction: row;
-  align-items: center;
-  gap: 0.35rem;
-  font-weight: 400;
+  &_submit {
+    flex-shrink: 0;
+  }
 }
 
 @media (max-width: 560px) {
-  .fusion-form__row {
-    grid-template-columns: 1fr;
-  }
+  .app-fusion-form {
+    &_plus {
+      display: none;
+    }
 
-  .fusion-form__plus {
-    display: none;
+    &_row {
+      flex-direction: column;
+      align-items: stretch !important;
+    }
   }
 }

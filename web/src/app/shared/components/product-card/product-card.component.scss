@@ -1,69 +1,76 @@
 :host {
   display: block;
   min-width: 0;
-}
-
-:host(.product-card-host--hidden) {
-  display: none;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
   height: 100%;
 }
 
-.card__image {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: var(--surface-muted);
-}
-
-.card__body {
+:host ::ng-deep .app-product-card_card-surface.p-card {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
+  height: 100%;
+}
+
+:host ::ng-deep .app-product-card_card-surface .p-card-body {
   flex: 1;
-}
-
-.card__source {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.card__title {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.35;
-}
-
-.card__price {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-.card__actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
+  flex-direction: column;
+}
+
+:host ::ng-deep .app-product-card_card-surface .p-card-footer {
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.75rem;
 }
 
-.badge {
-  font-size: 0.875rem;
-  color: var(--accent);
-  font-weight: 500;
+:host(.app-product-card_hidden) {
+  display: none;
 }
 
+.app-product-card {
+  &_card {
+    height: 100%;
+    transition: transform 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  &_image-el {
+    display: block;
+    height: 10.5rem;
+    object-fit: cover;
+    background: linear-gradient(145deg, var(--accent-soft), #f5ddd0);
+  }
+
+  &_body {
+    flex: 1;
+  }
+
+  &_source {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  &_title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  &_price {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  &_actions {
+    width: 100%;
+  }
+}

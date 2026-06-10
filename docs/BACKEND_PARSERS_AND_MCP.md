@@ -104,8 +104,11 @@ Ozon отдаёт антибот: редиректы, проверка TLS/JS. �
 
 | MCP | Где | Зачем |
 |-----|-----|--------|
-| **angular-cli** | `web/.vscode/mcp.json` | Агент знает актуальный Angular 21 API, миграции, CLI |
-| **cursor-ide-browser** | В Cursor | Открыть localhost, клики, скриншоты для проверки UI |
+| **angular-cli** | `.cursor/mcp.json` | Агент знает актуальный Angular 21 API, миграции, CLI |
+| **github** | `.cursor/mcp.json` | Issues, PR, CI checks в репозитории `Natallinya/ai360` |
+| **ai360-bff** | `mcp/ai360-bff/` + `.cursor/mcp.json` | Агент вызывает ваш BFF: health, search, fusion, wb-image |
+| **ai360-rules** | `mcp/ai360-rules/` + `.cursor/mcp.json` | Запись правил в `.cursor/rules/*.mdc` по команде «Установи правило …» |
+| **cursor-ide-browser** | Встроен в Cursor | Открыть localhost, клики, скриншоты для проверки UI |
 | **cursor-app-control** | В Cursor | Правила, чат, workspace |
 | **cursor-backend-control** | В Cursor | Автоматизации Cursor (не ваш BFF) |
 
@@ -116,12 +119,45 @@ Ozon отдаёт антибот: редиректы, проверка TLS/JS. �
       ↓
   AI-агент
       ↓
-  MCP tools (browser, angular-cli, …)
+  MCP tools (github, angular-cli, ai360-bff, browser, …)
       ↓
-  Действия: открыть файл, ng serve, snapshot страницы
+  Действия: PR в GitHub, ng generate, GET /api/search, snapshot UI
 ```
 
 **MCP не заменяет** написание `api/` или Python-scraper. Это «руки агента» в IDE.
+
+### Настройка MCP (один раз)
+
+1. **Собрать свой сервер:** `npm run build:mcp` (из корня монорепо).
+2. **GitHub token:** в Windows — «Переменные среды» → `GITHUB_PERSONAL_ACCESS_TOKEN`  
+   Scopes: `repo`, `read:org` (опционально). Токен **не** кладём в git.
+3. **Cursor:** Settings → Tools & MCP — должны быть зелёные индикаторы у серверов из `.cursor/mcp.json`.
+4. **Локальный BFF:** `npm run dev:api` (порт 3000). Для прода см. `.cursor/mcp.prod.example.json` (`AI360_BFF_URL=https://ai360.onrender.com`).
+
+### Инструменты ai360-bff MCP
+
+| Tool | BFF endpoint | Пример запроса агенту |
+|------|--------------|------------------------|
+| `bff_health` | `GET /api/health` | «Проверь, жив ли BFF» |
+| `bff_search` | `GET /api/search?q=…` | «Найди наушники через BFF» |
+| `bff_fuse_animals` | `POST /api/animal-fusion` | «Скрести медоед и носорог» |
+| `bff_wb_image` | `GET /api/wb-image/:nmId` | «Проверь картинку WB 12345678» |
+
+Код сервера: `mcp/ai360-bff/src/index.ts` — stdio-процесс, который Cursor запускает сам.
+
+### Инструменты ai360-rules MCP (правила проекта)
+
+| Tool | Действие | Пример в чате |
+|------|----------|----------------|
+| `rule_install` | Добавить/обновить секцию в **одном** файле `.cursor/rules/custom-rules.mdc` | «Установи правило „Не коммитить без спроса“: …» |
+| `rule_list` | Список секций внутри `custom-rules.mdc` | «Какие мои правила есть?» |
+| `rule_read` | Весь файл или одна секция по slug | «Покажи custom-rules» |
+
+**Важно:** пользовательские правила из чата — **в одном файле** `custom-rules.mdc`.  
+Стандарты Angular/git остаются в отдельных `angular-*.mdc`.  
+Встроенный `cursor_dialog` — **глобальные** user rules Cursor; для ai360 лучше `custom-rules.mdc` в git.
+
+Код: `mcp/ai360-rules/src/index.ts`
 
 ### Можно ли подключить MCP-парсер Ozon?
 

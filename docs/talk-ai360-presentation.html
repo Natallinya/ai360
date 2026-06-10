@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>ai360 — Wishlist Aggregator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    @page { size: A4; margin: 14mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'DM Sans', 'Segoe UI', sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #2d2419;
+      background: #fff;
+    }
+    h1, h2, h3 { font-family: Fraunces, Georgia, serif; line-height: 1.2; }
+    h1 { font-size: 26pt; color: #c45c3e; margin: 0 0 8px; }
+    h2 { font-size: 15pt; color: #c45c3e; margin: 22px 0 8px; page-break-after: avoid; }
+    h3 { font-size: 11pt; margin: 14px 0 5px; color: #5c4a3a; }
+    p { margin: 0 0 8px; }
+    .page { page-break-after: always; padding-bottom: 6mm; }
+    .page:last-child { page-break-after: auto; }
+    .subtitle { font-size: 12pt; color: #8a7868; margin-bottom: 16px; }
+    .meta { font-size: 9.5pt; color: #8a7868; margin-bottom: 18px; }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 9.5pt; }
+    th, td { border: 1px solid #e8d9cc; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f9e8df; font-weight: 600; }
+    ul, ol { margin: 4px 0 10px; padding-left: 18px; }
+    li { margin-bottom: 3px; }
+    .tag { display: inline-block; padding: 2px 7px; border-radius: 999px; background: #f9e8df; color: #a84b32; font-size: 8.5pt; font-weight: 600; }
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0; }
+    .stat { border: 1px solid #e8d9cc; border-radius: 10px; padding: 10px; text-align: center; background: #fff9f4; }
+    .stat strong { display: block; font-size: 18pt; color: #c45c3e; }
+    .quote { border-left: 4px solid #c45c3e; padding: 8px 12px; background: #f9e8df; margin: 10px 0; font-style: italic; font-size: 10pt; }
+    .footer-note { margin-top: 16px; font-size: 8.5pt; color: #8a7868; }
+    a { color: #c45c3e; }
+    code { font-size: 9pt; background: #f5ebe3; padding: 1px 4px; border-radius: 4px; }
+
+    .arch-flow {
+      border: 1px solid #e8d9cc;
+      border-radius: 10px;
+      padding: 12px;
+      background: #fffcf8;
+      font-size: 9pt;
+      font-family: Consolas, monospace;
+      line-height: 1.55;
+      white-space: pre;
+      margin: 10px 0;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .why { font-size: 9pt; color: #6b5a4a; margin-top: 2px; }
+
+    .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+    .mockup-grid.single { grid-template-columns: 1fr; }
+    .mockup {
+      border: 1px solid #e8d9cc;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .mockup img { width: 100%; height: auto; display: block; }
+    .mockup figcaption { padding: 6px 8px; font-size: 9pt; background: #f9e8df; font-weight: 600; }
+
+    .phase { border-left: 3px solid #c45c3e; padding: 6px 0 6px 12px; margin: 8px 0; }
+    .phase-num { font-weight: 700; color: #c45c3e; font-size: 9pt; }
+    .phase h3 { margin-top: 0; }
+
+    .ci-step { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; font-size: 9.5pt; }
+    .ci-num {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #c45c3e;
+      color: #fff;
+      font-size: 9pt;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1: Титул -->
+<section class="page">
+  <h1>Wishlist Aggregator</h1>
+  <p class="subtitle">ai360 — пэт-проект: агрегатор вишлиста, BFF, вайбкодинг с Cursor</p>
+  <p class="meta">Репозиторий: <a href="https://github.com/Natallinya/ai360">github.com/Natallinya/ai360</a> · Июнь 2026</p>
+
+  <h2>Идея продукта</h2>
+  <p>Пользователь ищет товар текстом или вставляет ссылку с маркетплейса, видит варианты с разных площадок в едином формате и сохраняет понравившееся в личный вишлист. Покупка — только по внешней ссылке. Бонус-фича: «гибриды животных» (генерация имени и картинки через AI).</p>
+
+  <div class="stat-grid">
+    <div class="stat"><strong>35</strong>user stories</div>
+    <div class="stat"><strong>26</strong>готово</div>
+    <div class="stat"><strong>5</strong>экранов</div>
+    <div class="stat"><strong>2</strong>сервиса в проде</div>
+  </div>
+
+  <h2>Демо</h2>
+  <ul>
+    <li>Фронт: <a href="https://natallinya.github.io/ai360/">natallinya.github.io/ai360</a></li>
+    <li>BFF: <a href="https://ai360.onrender.com/api/health">ai360.onrender.com/api/health</a></li>
+    <li>Локально: <code>npm run dev</code> → Angular :4200 + BFF :4077</li>
+  </ul>
+
+  <div class="quote">Проект задуман как лаборатория Cursor: продуктовая спека до кода, честные ограничения API маркетплейсов, rules и MCP как «долгая память» репозитория.</div>
+</section>
+
+<!-- PAGE 2: Стек и обоснование -->
+<section class="page">
+  <h2>Стек — что и зачем</h2>
+
+  <table>
+    <tr><th>Слой</th><th>Технологии</th><th>Почему выбрали</th></tr>
+    <tr>
+      <td><strong>Frontend</strong></td>
+      <td>Angular 21, standalone, zoneless, signals, PrimeNG, SCSS</td>
+      <td class="why">Целевой стек для обучения и публикации на GitHub. Signals + standalone — современный Angular без NgModule. PrimeNG даёт готовые карточки, кнопки, формы. Zoneless снижает лишние циклы CD.</td>
+    </tr>
+    <tr>
+      <td><strong>BFF</strong></td>
+      <td>Node.js 22, Express, TypeScript, cheerio, Playwright</td>
+      <td class="why">Фронтендеру знаком TypeScript и npm. BFF прячет ключи API, CORS, SSRF-валидацию и парсинг. Playwright — единственный реалистичный путь к карточкам WB/Ozon/Allegro без публичного API.</td>
+    </tr>
+    <tr>
+      <td><strong>Монорепо</strong></td>
+      <td>npm workspaces, concurrently</td>
+      <td class="why">Один <code>npm run dev</code> из корня вместо двух терминалов. Общий lockfile и <code>overrides</code> для Angular — защита от дублей <code>@angular/core</code> (NG0203).</td>
+    </tr>
+    <tr>
+      <td><strong>CI/CD</strong></td>
+      <td>GitHub Actions, GitHub Pages, Render Blueprint</td>
+      <td class="why">Бесплатно для пэт-проекта: статика на Pages, BFF на Render free tier. CI на каждый push — сборка + 25 unit-тестов.</td>
+    </tr>
+    <tr>
+      <td><strong>AI (runtime)</strong></td>
+      <td>Stable Horde, OpenAI DALL·E 2 (опц.)</td>
+      <td class="why">Гибриды животных без своего GPU. Horde — бесплатная очередь; DALL·E — fallback при наличии ключа на Render.</td>
+    </tr>
+    <tr>
+      <td><strong>AI (разработка)</strong></td>
+      <td>Cursor Agent, MCP-серверы</td>
+      <td class="why">Агент пишет код по rules, проверяет BFF через MCP, открывает UI в browser MCP. Не заменяет runtime — ускоряет разработку.</td>
+    </tr>
+    <tr>
+      <td><strong>Тесты</strong></td>
+      <td>Vitest (Angular 21), Playwright (PDF)</td>
+      <td class="why">Встроенный test runner Angular 21. 10 spec-файлов: сервисы, utils, компоненты.</td>
+    </tr>
+  </table>
+
+  <h3>Что сознательно не выбрали</h3>
+  <ul>
+    <li><strong>NestJS / FastAPI</strong> — избыточно для тонкого BFF с 5 эндпоинтами</li>
+    <li><strong>Отдельный Python-scraper</strong> — отложен; Playwright в Node покрывает импорт по URL</li>
+    <li><strong>Ozon/WB поиск через API</strong> — нет легального публичного каталога; только WB search API + mock + DummyJSON</li>
+    <li><strong>Auth/БД на старте</strong> — вишлист в localStorage до MVP; облако — фаза 2</li>
+  </ul>
+</section>
+
+<!-- PAGE 3: Архитектура -->
+<section class="page">
+  <h2>Архитектура системы</h2>
+
+  <div class="arch-flow">┌─────────────────┐     /api/*      ┌──────────────────┐     адаптеры      ┌─────────────────┐
+│  Angular web    │ ──────────────► │  Express BFF     │ ───────────────► │  Источники      │
+│  :4200 / Pages  │   proxy dev     │  api/ :4077      │                 │  mock, WB,      │
+│  GitHub Pages   │   CORS prod     │  Render          │                 │  DummyJSON, AI  │
+└─────────────────┘                 └──────────────────┘                 └─────────────────┘
+        │                                    │
+        │ localStorage                       ├── cheerio (OG/meta)
+        ▼                                    ├── Playwright (WB/Allegro/Я.Маркет)
+   Вишлист, настройки                        ├── Stable Horde / DALL·E
+                                             └── SSRF-safe URL validation</div>
+
+  <h3>Слои фронтенда (Angular)</h3>
+  <table>
+    <tr><th>Папка</th><th>Назначение</th></tr>
+    <tr><td><code>features/&lt;name&gt;/pages/</code></td><td>Экраны с маршрутом (HomePage, SearchResultsPage…)</td></tr>
+    <tr><td><code>features/&lt;name&gt;/components/</code></td><td>UI внутри фичи (FusionFormComponent)</td></tr>
+    <tr><td><code>shared/components/</code></td><td>Переиспользуемые блоки: ProductCard, SearchForm</td></tr>
+    <tr><td><code>core/services/</code></td><td>WishlistService, SearchApiService — singleton</td></tr>
+    <tr><td><code>core/utils/</code></td><td>apiUrl, offer-image, http-error-message</td></tr>
+  </table>
+
+  <h3>Потоки данных</h3>
+  <ol>
+    <li><strong>Поиск:</strong> форма → <code>GET /api/search?q=</code> → параллельные адаптеры → сортировка по цене → карточки 3×3</li>
+    <li><strong>Вишлист:</strong> ProductCard → WishlistService → localStorage (без BFF)</li>
+    <li><strong>По ссылке:</strong> URL → <code>POST /api/offers/from-url</code> → Playwright или cheerio → предпросмотр → вишлист</li>
+    <li><strong>Гибриды:</strong> <code>POST /api/animal-fusion</code> → имя + генерация 384px → кэш на диске BFF</li>
+    <li><strong>WB-картинки:</strong> <code>GET /api/wb-image/:nmId</code> — прокси редиректов CDN Wildberries</li>
+  </ol>
+</section>
+
+<!-- PAGE 4: BFF подробно -->
+<section class="page">
+  <h2>BFF (Backend-for-Frontend)</h2>
+  <p>BFF — единая точка входа для Angular. Фронт <strong>никогда</strong> не хранит API-ключи и не ходит напрямую на маркетплейсы (CORS, антибот).</p>
+
+  <h3>Эндпоинты</h3>
+  <table>
+    <tr><th>Метод</th><th>Путь</th><th>Назначение</th></tr>
+    <tr><td>GET</td><td><code>/api/health</code></td><td>Health check для Render и MCP</td></tr>
+    <tr><td>GET</td><td><code>/api/search?q=&amp;wbPage=</code></td><td>Поиск: mock + WB + DummyJSON параллельно</td></tr>
+    <tr><td>POST</td><td><code>/api/offers/from-url</code></td><td>Импорт карточки по URL (SSRF-safe)</td></tr>
+    <tr><td>POST</td><td><code>/api/animal-fusion</code></td><td>Гибрид: имя + картинка (Horde/DALL·E)</td></tr>
+    <tr><td>GET</td><td><code>/api/wb-image/:nmId</code></td><td>Прокси изображений Wildberries</td></tr>
+  </table>
+
+  <h3>Плагинные адаптеры поиска</h3>
+  <table>
+    <tr><th>id</th><th>Источник</th><th>Особенности</th></tr>
+    <tr><td>mock</td><td>Локальный каталог</td><td>Стабильный демо-набор, всегда работает</td></tr>
+    <tr><td>wildberries</td><td>search.wb.ru</td><td>Реальные товары; пагинация через wbPage</td></tr>
+    <tr><td>dummyjson</td><td>dummyjson.com</td><td>Демо REST API без ключей, англ. каталог</td></tr>
+  </table>
+  <p>Адаптеры реализуют <code>SearchAdapter</code>; <code>search.service.ts</code> вызывает их через <code>Promise.allSettled</code> с таймаутом — падение одного источника не ломает ответ.</p>
+
+  <h3>Парсинг по URL</h3>
+  <ul>
+    <li><strong>cheerio + fetch</strong> — Open Graph / meta для простых сайтов (books.toscrape.com)</li>
+    <li><strong>Playwright (headless Chromium)</strong> — WB, Allegro, Яндекс.Маркет: антибот требует браузер</li>
+    <li><strong>url-safety.ts</strong> — блокировка localhost, private IP, file:// (SSRF)</li>
+  </ul>
+
+  <h3>Локально vs прод</h3>
+  <table>
+    <tr><th></th><th>Локально</th><th>Render free</th></tr>
+    <tr><td>Порт</td><td>4077 (proxy → /api)</td><td>ai360.onrender.com</td></tr>
+    <tr><td>Playwright</td><td>✅ после playwright:install</td><td>⚠️ нестабильно на free tier</td></tr>
+    <tr><td>Cold start</td><td>—</td><td>30–60 с после сна</td></tr>
+    <tr><td>CORS</td><td>localhost:4200</td><td>natallinya.github.io</td></tr>
+  </table>
+</section>
+
+<!-- PAGE 5: CI/CD -->
+<section class="page">
+  <h2>CI/CD — процессы</h2>
+  <p>Два независимых контура: <strong>CI</strong> проверяет код, <strong>CD</strong> выкладывает web на Pages и api на Render.</p>
+
+  <h3>Workflow CI (<code>.github/workflows/ci.yml</code>)</h3>
+  <p>Триггер: push и PR в <code>main</code> / <code>development</code>.</p>
+  <div class="ci-step"><span class="ci-num">1</span><span>Checkout + Node.js 22 + кэш npm</span></div>
+  <div class="ci-step"><span class="ci-num">2</span><span><code>npm ci</code> — установка workspaces (api, web, mcp)</span></div>
+  <div class="ci-step"><span class="ci-num">3</span><span>Linux fix: <code>@rollup/rollup-linux-x64-gnu</code> (lockfile с Windows)</span></div>
+  <div class="ci-step"><span class="ci-num">4</span><span><code>npm run build -w api</code> — компиляция TypeScript BFF</span></div>
+  <div class="ci-step"><span class="ci-num">5</span><span><code>npm run build -w web</code> — production-сборка Angular</span></div>
+  <div class="ci-step"><span class="ci-num">6</span><span><code>npm run test -w web -- --watch=false</code> — 25 unit-тестов Vitest</span></div>
+
+  <h3>Workflow Deploy (<code>.github/workflows/deploy.yml</code>)</h3>
+  <p>Триггер: push в <code>main</code> / <code>development</code>. Concurrency: один деплой Pages.</p>
+  <div class="ci-step"><span class="ci-num">1</span><span>Сборка api (smoke) + <code>scripts/write-web-env.mjs</code> — подстановка <code>API_BASE_URL</code> (дефолт Render)</span></div>
+  <div class="ci-step"><span class="ci-num">2</span><span><code>ng build --configuration=github-pages</code> — base href <code>/ai360/</code></span></div>
+  <div class="ci-step"><span class="ci-num">3</span><span><code>prepare-github-pages.mjs</code> — артефакт для Pages</span></div>
+  <div class="ci-step"><span class="ci-num">4</span><span><code>deploy-pages@v4</code> → <a href="https://natallinya.github.io/ai360/">natallinya.github.io/ai360</a></span></div>
+
+  <h3>Render Blueprint (<code>render.yaml</code>)</h3>
+  <ul>
+    <li>Ветка <code>development</code>, регион Frankfurt, plan free</li>
+    <li>Build: <code>npm ci && npm run build -w api</code></li>
+    <li>Start: <code>npm run start -w api</code></li>
+    <li>Health: <code>/api/health</code></li>
+    <li>Секреты (опц.): <code>OPENAI_API_KEY</code>, <code>STABLE_HORDE_API_KEY</code></li>
+  </ul>
+
+  <h3>Git workflow</h3>
+  <p>Разработка в <code>development</code>; релизы — merge в <code>main</code>. Dependabot следит за зависимостями. Рекомендуется branch protection + required check CI.</p>
+</section>
+
+<!-- PAGE 6: Макеты 1 -->
+<section class="page">
+  <h2>Макеты UI (design v2 warm)</h2>
+  <p>Дизайн-система: тёплая палитра (#c45c3e, #f9e8df), Fraunces + DM Sans, скруглённые карточки. Исходники: <code>docs/design-v2-warm.html</code>, <code>docs/wireframes-v2.html</code>.</p>
+
+  <div class="mockup-grid">
+    <figure class="mockup">
+      <img src="figma-export/01-home.png" alt="Главная — поиск" />
+      <figcaption>01 · Главная — hero, чипы запросов, ссылки на add-by-url и fusion</figcaption>
+    </figure>
+    <figure class="mockup">
+      <img src="figma-export/02-search.png" alt="Результаты поиска" />
+      <figcaption>02 · Поиск — сетка карточек, фильтр битых фото, статусы источников</figcaption>
+    </figure>
+    <figure class="mockup">
+      <img src="figma-export/03-wishlist.png" alt="Вишлист" />
+      <figcaption>03 · Вишлист — список, «куплено», удаление</figcaption>
+    </figure>
+    <figure class="mockup">
+      <img src="figma-export/04-add-url.png" alt="Добавить по ссылке" />
+      <figcaption>04 · По ссылке — ввод URL, предпросмотр, демо-книга</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- PAGE 7: Макеты 2 -->
+<section class="page">
+  <h2>Макеты UI (продолжение)</h2>
+
+  <div class="mockup-grid single">
+    <figure class="mockup">
+      <img src="figma-export/05-fusion.png" alt="Гибриды животных" />
+      <figcaption>05 · Гибриды — выбор животных, стиль (cute/cartoon/realistic), AI-картинка</figcaption>
+    </figure>
+  </div>
+
+  <div class="mockup-grid single">
+    <figure class="mockup">
+      <img src="figma-export/06-states.png" alt="Состояния UI" />
+      <figcaption>06 · Состояния — loading, empty, error, toast</figcaption>
+    </figure>
+  </div>
+
+  <h3>Реализация vs макет</h3>
+  <ul>
+    <li>Сетка поиска: 9 карточек на страницу, 3 в ряд, равная высота (flex footer)</li>
+    <li>PrimeNG Card + PrimeTemplate для header/footer (картинки и кнопки)</li>
+    <li>Proxy dev: <code>proxy.conf.json</code> с timeout 180s для fusion</li>
+  </ul>
+</section>
+
+<!-- PAGE 8: Cursor — rules, MCP -->
+<section class="page">
+  <h2>Cursor: rules, MCP, AGENTS.md</h2>
+  <p>Чтобы агент не «плыл» по структуре и не коммитил без спроса — правила в репозитории и кастомные MCP.</p>
+
+  <h3>Rules (<code>.cursor/rules/</code>)</h3>
+  <table>
+    <tr><th>Файл</th><th>Когда</th><th>Содержание</th></tr>
+    <tr>
+      <td><code>angular-standards.mdc</code></td>
+      <td>globs: web/src/**</td>
+      <td>Структура features/pages/components, именование *.page.ts / *.component.ts, standalone, OnPush, signals, @if/@for, Vitest</td>
+    </tr>
+    <tr>
+      <td><code>angular-git-workflow.mdc</code></td>
+      <td>alwaysApply</td>
+      <td>Ветка development, не коммитить/push без запроса, стиль сообщений feat:/fix:</td>
+    </tr>
+    <tr>
+      <td><code>custom-rules.mdc</code></td>
+      <td>alwaysApply</td>
+      <td>Пользовательские правила из чата: не пушить без спроса, проверять консоль браузера, не добавлять комментарии</td>
+    </tr>
+  </table>
+
+  <h3>AGENTS.md</h3>
+  <p>Краткий README для агента: продукт, команды из корня, MVP scope, что не делать (скрапинг без API, ключи во фронте).</p>
+
+  <h3>MCP-серверы</h3>
+  <table>
+    <tr><th>Сервер</th><th>Где</th><th>Зачем в ai360</th></tr>
+    <tr><td><strong>angular-cli</strong></td><td>.cursor/mcp.json</td><td>Актуальный Angular 21 API, ng generate, миграции</td></tr>
+    <tr><td><strong>github</strong></td><td>.cursor/mcp.json</td><td>Issues, PR, CI checks (токен в env)</td></tr>
+    <tr><td><strong>ai360-bff</strong></td><td>mcp/ai360-bff/</td><td>Tools: bff_health, bff_search, bff_fuse_animals, bff_wb_image — агент тестирует BFF из чата</td></tr>
+    <tr><td><strong>ai360-rules</strong></td><td>mcp/ai360-rules/</td><td>Tools: rule_install, rule_list, rule_read — «Установи правило …» → custom-rules.mdc</td></tr>
+    <tr><td><strong>cursor-ide-browser</strong></td><td>Встроен в Cursor</td><td>Открыть localhost, snapshot UI, проверка после правок</td></tr>
+  </table>
+  <p>Сборка MCP: <code>npm run build:mcp</code>. Прод-BFF для MCP: <code>.cursor/mcp.prod.example.json</code> (AI360_BFF_URL=Render).</p>
+
+  <h3>Skills</h3>
+  <p>Отдельный skill-файл в репозитории не заведён; вместо этого — <strong>angular-standards.mdc</strong> + макеты <code>design-v2-warm.html</code>. При работе с layout агент следует warm UI: flex-карточки, 3-колоночная сетка, footer кнопок внизу карточки.</p>
+</section>
+
+<!-- PAGE 9: Этапы проекта -->
+<section class="page">
+  <h2>Этапы жизни проекта</h2>
+  <p>Хронология вайбкодинга: от идеи до деплоя и тестов. Подробнее: <code>docs/TALK_CURSOR_VIBE_CODING.md</code>.</p>
+
+  <div class="phase">
+    <p class="phase-num">Этап 0 · Старт</p>
+    <h3>Идея и выбор темы</h3>
+    <p>Пэт-проект под Angular 21 + GitHub. Нужна понятная продуктовая история с фронтом и бэкендом, но без «магических» API маркетплейсов.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 1 · Продукт (BA)</p>
+    <h3>Спецификация до кода</h3>
+    <p><code>PRODUCT_SPEC_wishlist_aggregator.md</code> — персоны, MVP, риски API. <code>USER_STORIES.md</code> — 35 stories с чеклистом. Wireframes v2.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 2 · Scaffold</p>
+    <h3>Каркас репозитория</h3>
+    <p>Angular 21 (standalone, zoneless), Git, GitHub Natallinya/ai360, первый CI workflow, ветка development.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 3 · MVP UI</p>
+    <h3>Экраны без BFF</h3>
+    <p>Главная, поиск, вишлист на mock + localStorage. Карточки товаров, навигация.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 4 · Rules</p>
+    <h3>Долгая память агента</h3>
+    <p>angular-standards.mdc, git workflow, AGENTS.md, позже MCP ai360-rules для правил из чата.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 5 · BFF</p>
+    <h3>api/ Express</h3>
+    <p>Адаптеры mock + DummyJSON, GET /api/search, CORS, proxy в ng serve. Исследование eBay/Allegro → честный отказ.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 6 · Интеграции</p>
+    <h3>Реальные источники</h3>
+    <p>Wildberries search, импорт по URL (cheerio + Playwright), MARKETPLACE_INTEGRATIONS.md.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 7 · Монорепо</p>
+    <h3>Один npm run dev</h3>
+    <p>npm workspaces, concurrently, overrides Angular, .npmrc hoisted.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 8 · Дизайн v2 + фичи</p>
+    <h3>PrimeNG warm UI, fusion, деплой</h3>
+    <p>GitHub Pages + Render, гибриды животных (Stable Horde 384px), фиксы NG0203/PrimeTemplate, сетка 9×3.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 9 · Качество</p>
+    <h3>Тесты и доклад</h3>
+    <p>25 Vitest-тестов, этот PDF, MCP ai360-bff для отладки из IDE.</p>
+  </div>
+
+  <div class="phase">
+    <p class="phase-num">Этап 10 · Дальше</p>
+    <h3>Backlog</h3>
+    <p>Фильтр площадки в UI, заметки вишлиста, auth + облачный вишлист, публичная ссылка /w/:id.</p>
+  </div>
+</section>
+
+<!-- PAGE 10: Фичи, тесты, итог -->
+<section class="page">
+  <h2>Экраны и user stories</h2>
+  <table>
+    <tr><th>Маршрут</th><th>Функция</th><th>Статус</th></tr>
+    <tr><td>/</td><td>Главная, быстрый поиск, чипы</td><td><span class="tag">готово</span></td></tr>
+    <tr><td>/search</td><td>9×3, пагинация, фильтр битых фото</td><td><span class="tag">готово</span></td></tr>
+    <tr><td>/wishlist</td><td>CRUD, «куплено», prune</td><td><span class="tag">готово</span></td></tr>
+    <tr><td>/add-by-url</td><td>Импорт, Playwright, предпросмотр</td><td><span class="tag">готово</span></td></tr>
+    <tr><td>/fusion</td><td>Гибриды, AI 384px, вишлист</td><td><span class="tag">готово</span></td></tr>
+  </table>
+
+  <table>
+    <tr><th>Epic</th><th>Готово</th><th>Осталось</th></tr>
+    <tr><td>A — Поиск</td><td>7/9</td><td>Фильтр площадки, streaming</td></tr>
+    <tr><td>B — Вишлист</td><td>6/7</td><td>Заметки</td></tr>
+    <tr><td>C — Аккаунт</td><td>1/3</td><td>Auth, миграция localStorage</td></tr>
+    <tr><td>D — Расширения</td><td>1/5</td><td>Публичный вишлист, цены</td></tr>
+    <tr><td>E — По ссылке</td><td>5/6</td><td>Ручная цена</td></tr>
+    <tr><td>F — Гибриды</td><td>6/6</td><td>—</td></tr>
+    <tr><td>G — Навигация</td><td>3/3</td><td>—</td></tr>
+  </table>
+
+  <h2>Тестирование</h2>
+  <p>10 spec-файлов, 25 тестов: WishlistService, SearchApiService, ProductCard, SearchForm, FusionForm, api-url, offer-image, http-error, source-label, app shell. Фикстура: <code>testing/product-offer.fixture.ts</code>.</p>
+  <p><code>npm test -w web -- --watch=false</code></p>
+
+  <h2>Ограничения и уроки</h2>
+  <ul>
+    <li>Ozon/Allegro каталог — нет легального API; честная альтернатива: WB + mock + URL</li>
+    <li>Render free — cold start, Playwright на проде слабый</li>
+    <li>Дубли @angular/core в monorepo → NG0203; лечится overrides + hoisted install</li>
+    <li>PrimeTemplate обязателен для pTemplate header/footer в PrimeNG</li>
+  </ul>
+
+  <h2>Вывод</h2>
+  <p>За несколько сессий вайбкодинга: продуктовая спека, Angular 21, Express BFF, 5 экранов, деплой, MCP, 26/35 stories. Роль разработчика смещается к архитектуре и ревью; агент закрывает scaffold, интеграции и документацию — под контролем rules.</p>
+
+  <p class="footer-note">Сгенерировано из docs/talk-ai360-presentation.html · npm run talk:pdf</p>
+</section>
+
+</body>
+</html>

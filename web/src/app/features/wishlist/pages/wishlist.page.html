@@ -1,88 +1,101 @@
-<section class="wishlist-page">
-  <header>
-    <h1>Мой вишлист</h1>
-    <p class="meta">Активных позиций: {{ wishlist.activeCount() }}</p>
-  </header>
+<div class="app-wishlist-page flex flex-column gap-4">
+  <div class="app-wishlist-page_header">
+    <div class="app-wishlist-page_title">Мой вишлист</div>
+    <p class="app-wishlist-page_meta">{{ wishlist.activeCount() }} активных желания</p>
+  </div>
 
   @if (pruning()) {
-    <p class="meta">Проверяем картинки…</p>
+    <p-message class="app-wishlist-page_message" severity="info">Проверяем картинки…</p-message>
   }
 
   @if (prunedCount() > 0) {
-    <p class="pruned-note" role="status">
+    <p-message class="app-wishlist-page_message" severity="success">
       Удалено {{ prunedCount() }} позиций с битыми картинками (устаревшие ссылки WB).
-    </p>
+    </p-message>
   }
 
   @if (wishlist.items().length === 0) {
-    <p class="empty">
-      Список пуст.
-      <a routerLink="/">Найти через поиск</a>
+    <p-message class="app-wishlist-page_message" severity="secondary">
+      Список пуст —
+      <a routerLink="/">найти через поиск</a>
       или
       <a routerLink="/add-by-url">добавить по ссылке</a>.
-    </p>
+    </p-message>
   } @else {
-    <ul class="list">
+    <div class="app-wishlist-page_list flex flex-column gap-3">
       @for (item of wishlist.items(); track item.id) {
-        <li class="item" [class.item--purchased]="item.status === 'purchased'">
-          <img
-            class="item__thumb"
-            [src]="item.offerSnapshot.imageUrl"
-            [alt]="item.offerSnapshot.title"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-            (error)="onImageError(item.id)"
-          />
-          <div class="item__body">
-            <span class="item__source">{{ item.offerSnapshot.source | sourceLabel }}</span>
-            <h2 class="item__title">{{ item.offerSnapshot.title }}</h2>
-            <p class="item__price">
-              {{
-                item.offerSnapshot.price
-                  | currency
-                    : item.offerSnapshot.currency
-                    : 'symbol-narrow'
-                    : '1.0-0'
-              }}
-              <span class="item__saved">· цена при добавлении</span>
-            </p>
-            <p class="item__date">Добавлено {{ item.addedAt | date: 'd MMM y, HH:mm' }}</p>
+        <p-card
+          class="app-wishlist-page_item w-full"
+          styleClass="app-wishlist-page_item-surface"
+          [class.app-wishlist-page_item_purchased]="item.status === 'purchased'"
+        >
+          <div class="app-wishlist-page_item-row flex align-items-center gap-3">
+            <p-image
+              class="app-wishlist-page_thumb"
+              [src]="item.offerSnapshot.imageUrl"
+              [alt]="item.offerSnapshot.title"
+              width="96"
+              height="96"
+              [preview]="false"
+              imageClass="app-wishlist-page_thumb-el"
+              (onImageError)="remove(item.id)"
+            />
+            <div class="app-wishlist-page_body flex-1 min-w-0">
+              <span class="app-wishlist-page_source">{{
+                item.offerSnapshot.source | sourceLabel
+              }}</span>
+              <div class="app-wishlist-page_item-title">{{ item.offerSnapshot.title }}</div>
+              <p class="app-wishlist-page_price">
+                {{
+                  item.offerSnapshot.price
+                    | currency: item.offerSnapshot.currency : 'symbol-narrow' : '1.0-0'
+                }}
+                <span class="app-wishlist-page_saved">· цена при добавлении</span>
+              </p>
+              <p class="app-wishlist-page_date">
+                Добавлено {{ item.addedAt | date: 'd MMM y, HH:mm' }}
+              </p>
 
-            <div class="item__actions">
-              <a
-                class="btn btn--ghost"
-                [href]="item.offerSnapshot.productUrl"
-                target="_blank"
-                rel="noopener"
-              >
-                В магазин
-              </a>
-
-              @if (item.status === 'active') {
-                <button
+              <div class="app-wishlist-page_actions flex flex-wrap gap-2">
+                <p-button
                   type="button"
-                  class="btn btn--ghost"
-                  (click)="setStatus(item.id, 'purchased')"
-                >
-                  Куплено
-                </button>
-              } @else {
-                <button
-                  type="button"
-                  class="btn btn--ghost"
-                  (click)="setStatus(item.id, 'active')"
-                >
-                  Вернуть в активные
-                </button>
-              }
+                  label="В магазин"
+                  [outlined]="true"
+                  severity="secondary"
+                  class="app-wishlist-page_shop-btn"
+                  (onClick)="openShop(item.offerSnapshot.productUrl)"
+                />
 
-              <button type="button" class="btn btn--danger" (click)="remove(item.id)">
-                Удалить
-              </button>
+                @if (item.status === 'active') {
+                  <p-button
+                    type="button"
+                    label="Куплено"
+                    severity="secondary"
+                    class="app-wishlist-page_action-btn"
+                    (onClick)="setStatus(item.id, 'purchased')"
+                  />
+                } @else {
+                  <p-button
+                    type="button"
+                    label="Вернуть в активные"
+                    severity="secondary"
+                    class="app-wishlist-page_action-btn"
+                    (onClick)="setStatus(item.id, 'active')"
+                  />
+                }
+
+                <p-button
+                  type="button"
+                  label="Удалить"
+                  severity="danger"
+                  class="app-wishlist-page_action-btn"
+                  (onClick)="remove(item.id)"
+                />
+              </div>
             </div>
           </div>
-        </li>
+        </p-card>
       }
-    </ul>
+    </div>
   }
-</section>
+</div>
